@@ -1,12 +1,610 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>rh19physics</title>
-  </head>
-  <body>
-    <h1>Hello from rh19physics.github.io</h1>
-    <p>If you can see this, GitHub Pages is working.</p>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rui Huang — Computational Plasma Physics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a2e;
+      --paper: #f5f0eb;
+      --accent: #4f7d9a;
+      --muted: #7a7468;
+      --rule: #d4cdc4;
+      --highlight: #fdf8f4;
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.7;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Subtle grain texture --- */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* --- Navigation --- */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(245, 240, 235, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+      z-index: 100;
+      padding: 0 2rem;
+    }
+
+    nav .nav-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 56px;
+    }
+
+    nav .nav-name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    nav .nav-links { display: flex; gap: 2rem; }
+
+    nav .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+    }
+
+    nav .nav-links a:hover { color: var(--accent); }
+
+    /* --- Main Content --- */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* --- Hero --- */
+    .hero {
+      padding-top: 140px;
+      padding-bottom: 80px;
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 3rem;
+      align-items: start;
+      animation: fadeUp 0.8s ease-out both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-text h1 {
+      font-family: var(--serif);
+      font-size: 2.75rem;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-text .subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .hero-text .intro {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ink);
+      max-width: 560px;
+    }
+
+    .hero-text .intro a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+    }
+
+    .hero-text .intro a:hover { text-decoration-thickness: 2px; }
+
+    .hero-photo img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      background: var(--rule);
+      overflow: hidden;
+      position: relative;
+      margin-top: 0.5rem;
+    }
+
+    .hero-photo .placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      padding: 1rem;
+      line-height: 1.5;
+    }
+
+    /* If you add a real photo, use:
+       .hero-photo img { width: 100%; height: 100%; object-fit: cover; } */
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-row a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: opacity 0.2s;
+    }
+
+    .contact-row a:hover { opacity: 0.7; }
+
+    .contact-row a .icon {
+      font-size: 1rem;
+      line-height: 1;
+    }
+
+    /* --- Sections --- */
+    section {
+      padding: 60px 0;
+      border-top: 1px solid var(--rule);
+      animation: fadeUp 0.6s ease-out both;
+    }
+
+    section h2 {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.01em;
+    }
+
+    section h2 .accent-dot {
+      color: var(--accent);
+    }
+
+    /* --- Research --- */
+    .research-areas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .research-card {
+      background: var(--highlight);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .research-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .research-card h3 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .research-card p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* --- Publications --- */
+    .pub-list { list-style: none; }
+
+    .pub-item {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 50px 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .pub-item:last-child { border-bottom: none; }
+
+    .pub-year {
+      font-family: var(--serif);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--accent);
+      padding-top: 2px;
+    }
+
+    .pub-details h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.45;
+      margin-bottom: 0.3rem;
+    }
+
+    .pub-details .pub-authors {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .pub-details .pub-venue {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .pub-details .pub-links {
+      margin-top: 0.4rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .pub-details .pub-links a {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+
+    .pub-details .pub-links a:hover { opacity: 0.7; }
+
+    /* --- CV Section --- */
+    .cv-section p {
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .cv-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.5rem;
+      border: 2px solid var(--ink);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .cv-button:hover {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    /* --- Footer --- */
+    footer {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 2rem 3rem;
+      border-top: 1px solid var(--rule);
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 700px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 100px;
+        padding-bottom: 50px;
+      }
+
+      .hero-photo {
+        width: 160px;
+        height: 200px;
+        order: -1;
+      }
+
+      .hero-text h1 { font-size: 2rem; }
+
+      nav .nav-links { gap: 1.25rem; }
+      nav .nav-links a { font-size: 0.78rem; }
+
+      .research-areas { grid-template-columns: 1fr; }
+
+      .pub-item {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== Navigation ========== -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-name">Rui Huang</a>
+      <div class="nav-links">
+        <a href="#research">Research</a>
+        <a href="#publications">Publications</a>
+        <a href="#talks">Talks</a>
+        <a href="#cv">CV</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ========== Hero ========== -->
+    <section class="hero" style="border-top: none;">
+      <div class="hero-text">
+        <h1>Rui Huang</h1>
+        <p class="subtitle">PhD Candidate · Computational Physics</p>
+        <p class="intro">
+          I am a 5th-year PhD candidate in the
+          <a href="https://physics.uiowa.edu/">Department of Physics and Astronomy</a> at University of Iowa,
+          advised by <a href="https://homepage.physics.uiowa.edu/~ghowes/index.html">Prof. Gregory Howes</a>.
+          My research diagnoses collisionless interactions between electromagnetic fields and plasma particles,
+focusing on energy transport, plasma heating, and particle acceleration.
+        </p>
+        <p class="intro" style="margin-top: 0.75rem;">
+          I have worked with data from gyrokinetic and particle-in-cell (PIC) simulations and spacecraft observations. I am also interested in computational plasma physics, numerical methods for kinetic equations, 
+          and scientific machine learning.
+        </p>
+        <div class="contact-row">
+          <a href="mailto:rui-huang@uiowa.edu">
+            <span class="icon">✉</span> rui-huang@uiowa.edu
+          </a>
+          <a href="https://scholar.google.com/citations?user=E3uo-tMAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">
+            <span class="icon">🎓</span> Google Scholar
+          </a>
+          <a href="https://github.com/rh19physics" target="_blank" rel="noopener">
+            <span class="icon">⌨</span> GitHub
+          </a>
+          <a href="https://orcid.org/0009-0000-0600-385X" target="_blank" rel="noopener">
+            <span class="icon">🔗</span> ORCID
+          </a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <!-- Replace this div's content with: <img src="photo.jpg" alt="Rui Huang"> -->
+        <img src="IMG_2180.jpg" alt="Rui Huang">
+      </div>
+    </section>
+
+    <!-- ========== Research ========== -->
+    <section id="research">
+      <h2>Research<span class="accent-dot">.</span></h2>
+      <p style="margin-bottom: 1.25rem; max-width: 640px; color: var(--muted); line-height: 1.75;">
+        My work focuses on developing diagnostics and methods to identify
+        wave–particle interactions and energization pathways in weakly collisional plasmas. Below are the main threads of my research.
+      </p>
+      <div class="research-areas">
+        <div class="research-card">
+          <h3>Resonant wave–particle interactions</h3>
+          <p>
+            Characterizing velocity-space structures associated with resonant damping (Landau damping, transit-time damping, and cyclotron damping).
+          </p>
+        </div>
+        <div class="research-card">
+          <h3>Turbulent energization & particle acceleration</h3>
+          <p>
+            Diagnosing ion and electron energization mechanisms in three-dimensional kinetic simulations.
+          </p>
+        </div>
+        <div class="research-card">
+          <h3>Data-driven plasma physics</h3>
+          <p>
+            Applying symbolic regression and scientific machine learning to derive interpretable plasma-heating scalings
+            and accelerate discovery from simulation and spacecraft datasets.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== Publications ========== -->
+    <section id="publications">
+      <h2>Selected Publications<span class="accent-dot">.</span></h2>
+
+      <ol class="pub-list">
+        <li class="pub-item">
+          <span class="pub-year">2025</span>
+          <div class="pub-details">
+            <h3>Unveiling the velocity-space signature of ion cyclotron damping using Liouville mapping</h3>
+            <p class="pub-authors"><strong>Rui Huang</strong> and Gregory G. Howes</p>
+            <p class="pub-venue">Physics of Plasmas, 32(12) (2025) · doi:10.1063/5.0293700</p>
+            <div class="pub-links">
+              <a href="https://doi.org/10.1063/5.0293700" target="_blank" rel="noopener">DOI</a>
+              <!-- <a href="#">arXiv</a>
+              <a href="#">DOI</a>
+              <a href="#">Code</a> -->
+            </div>
+          </div>
+        </li>
+        <li class="pub-item">
+          <span class="pub-year">2024</span>
+          <div class="pub-details">
+            <h3>The velocity-space signature of transit-time damping</h3>
+            <p class="pub-authors"><strong>Rui Huang</strong>, Gregory G. Howes, and A. J. McCubbin</p>
+            <p class="pub-venue">Journal of Plasma Physics, 90(4) (2024) · doi:10.1017/S0022377824000667</p>
+            <div class="pub-links">
+              <a href="https://doi.org/10.1017/S0022377824000667" target="_blank" rel="noopener">DOI</a>
+            </div>
+          </div>
+        </li>
+        <li class="pub-item">
+          <span class="pub-year">2023</span>
+          <div class="pub-details">
+            <h3>Direct observation of ion cyclotron damping of turbulence in Earth’s magnetosheath plasma</h3>
+            <p class="pub-authors">
+              A. S. Afshari, G. G. Howes, J. R. Shuster, K. G. Klein, D. McGinnis, M. M. Martinović, S. A. Boardsen,
+              C. R. Brown, <strong>Rui Huang</strong>, D. P. Hartley, and C. A. Kletzing
+            </p>
+            <p class="pub-venue">Nature Communications 15:7870 (2024) · doi:10.1038/s41467-024-52125-8</p>
+            <div class="pub-links">
+              <a href="https://doi.org/10.1038/s41467-024-52125-8" target="_blank" rel="noopener">DOI</a>
+            </div>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+        <!-- ========== Talks ========== -->
+    <section id="talks">
+      <h2>Talks & Presentations<span class="accent-dot">.</span></h2>
+
+      <ul class="simple-list">
+        <li>
+          <strong>APS Division of Plasma Physics (Oral)</strong>
+          <div class="meta">2025 — “Velocity-Space Signatures of Ion Cyclotron Damping Across Ion Plasma Beta Regimes.”</div>
+        </li>
+        <li>
+          <strong>APS Division of Plasma Physics (Oral)</strong>
+          <div class="meta">2024 — “What is Transit-Time Damping and How to Identify it in Space Plasma Turbulence.”</div>
+        </li>
+        <li>
+          <strong>AGU Annual Meeting (Poster)</strong>
+          <div class="meta">2025 — “Diagnosing Non-Relativistic Particle Acceleration in Turbulent, Low-Beta Plasmas.”</div>
+        </li>
+        <li>
+          <strong>SHINE Workshop (Poster)</strong>
+          <div class="meta">2025 — “Peeking into Ion Cyclotron Damping in Velocity Space.”</div>
+        </li>
+        <li>
+          <strong>SHINE Workshop (Poster)</strong>
+          <div class="meta">2024 — “What is transit-time damping and how to identify it in space plasma turbulence.”</div>
+        </li>
+        <li>
+          <strong>APS Division of Plasma Physics (Poster)</strong>
+          <div class="meta">2023 — “Velocity-Space Signature of Transit-Time Damping in Weakly Collisional Plasmas.”</div>
+        </li>
+        <li>
+          <strong>APS Division of Plasma Physics (Poster)</strong>
+          <div class="meta">2022 — “Transit-Time Damping Signatures in Solar Wind Turbulence Simulations.”</div>
+        </li>
+      </ul>
+
+      <h3 style="margin-top: 2rem; font-family: var(--serif); font-size: 1.05rem;">Seminars</h3>
+      <ul class="simple-list" style="margin-top: 1rem;">
+        <li>
+          <strong>Plasma Physics Seminar, University of Iowa</strong>
+          <div class="meta">2025 — “We found another way to calculate field-particle correlation.”</div>
+        </li>
+        <li>
+          <strong>Plasma Physics Seminar, University of Iowa</strong>
+          <div class="meta">2024 — “When AI Feynman Meets Plasma Turbulence.”</div>
+        </li>
+        <li>
+          <strong>Plasma Physics Seminar, University of Iowa</strong>
+          <div class="meta">2022 — “Velocity-Space Signature of Transit-time Damping: Yet Another Application of Field-Particle Correlation.”</div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ========== Honors ==========
+    <section id="honors">
+      <h2>Honors & Service<span class="accent-dot">.</span></h2>
+
+      <div class="research-areas" style="margin-top: 0;">
+        <div class="research-card">
+          <h3>Honors & Awards</h3>
+          <p style="margin-bottom: 0.75rem;">
+            NASA Heliophysics Summer School Travel Grant (2025) · Goertz/Nicholson Award (2025) · SHINE Workshop Travel Grant (2024) ·
+            Andrew Nielson Fellowship (2022) · Nicholson Fellowship (2021)
+          </p>
+          <p style="color: var(--muted); font-size: 0.9rem;">
+            (Selected; see CV for the full list.)
+          </p>
+        </div>
+
+        <div class="research-card">
+          <h3>Professional Service</h3>
+          <p>
+            Reviewer for <em>Astronomy and Computing</em> (2025).
+          </p>
+          <p style="margin-top: 0.75rem; color: var(--muted); font-size: 0.9rem;">
+            Memberships: American Physical Society (since 2024) · American Geophysical Union (since 2025).
+          </p>
+        </div>
+
+        <div class="research-card">
+          <h3>Skills Snapshot</h3>
+          <p>
+            Python · FORTRAN · MATLAB · TensorFlow/PyTorch · Scientific visualization · Git · Jupyter ·
+            Kinetic simulations (AstroGK) · PlasmaPy / PySPEDAS
+          </p>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- ========== CV ========== -->
+    <section id="cv" class="cv-section">
+      <h2>Curriculum Vitae<span class="accent-dot">.</span></h2>
+      <p>
+        A summary of my education, research experience, teaching, and talks.
+        For a complete record, please see my full CV below.
+      </p>
+      <a href="rhuang_CV_20260129.pdf" class="cv-button" target="_blank" rel="noopener">
+        📄 Download CV (PDF)
+      </a>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 Rui Huang · Built with GitHub Pages
+  </footer>
+
+</body>
 </html>
