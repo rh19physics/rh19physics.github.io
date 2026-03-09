@@ -15,8 +15,19 @@
       --muted: #7a7468;
       --rule: #d4cdc4;
       --highlight: #fdf8f4;
+      --nav-bg: rgba(245, 240, 235, 0.92);
       --serif: 'Libre Baskerville', Georgia, serif;
       --sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --ink: #e0dcd6;
+      --paper: #161821;
+      --accent: #6fa8c7;
+      --muted: #9a958d;
+      --rule: #2e3040;
+      --highlight: #1d1f2b;
+      --nav-bg: rgba(22, 24, 33, 0.92);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,6 +41,7 @@
       line-height: 1.7;
       font-size: 16px;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.35s, color 0.35s;
     }
 
     /* --- Subtle grain texture --- */
@@ -47,7 +59,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(245, 240, 235, 0.92);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--rule);
@@ -413,6 +425,28 @@
       color: var(--muted);
     }
 
+    /* --- Theme Toggle --- */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--rule);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--muted);
+      transition: border-color 0.25s, color 0.25s;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     /* --- Responsive --- */
     @media (max-width: 700px) {
       .hero {
@@ -453,6 +487,7 @@
         <a href="#talks">Talks</a>
         <a href="#notes-preview">Notes & Puzzles</a>
         <a href="#cv">CV</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
       </div>
     </div>
   </nav>
@@ -717,6 +752,35 @@ focusing on energy transport, plasma heating, and particle acceleration.
   <footer>
     © 2026 Rui Huang · Built with GitHub Pages
   </footer>
+
+  <script>
+    (function() {
+      const toggle = document.getElementById('themeToggle');
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = stored || (prefersDark ? 'dark' : 'light');
+
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      updateIcon();
+
+      toggle.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        }
+        updateIcon();
+      });
+
+      function updateIcon() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        toggle.textContent = isDark ? '☀' : '☾';
+      }
+    })();
+  </script>
 
 </body>
 </html>
