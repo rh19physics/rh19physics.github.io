@@ -305,6 +305,78 @@
 
     .pub-details .pub-links a:hover { opacity: 0.7; }
 
+    /* --- Talks --- */
+    .simple-list {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+
+    .simple-list li {
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.95rem;
+    }
+
+    .simple-list li:last-child { border-bottom: none; }
+
+    .simple-list .meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    /* --- Notes Preview --- */
+    .notes-list {
+      list-style: none;
+    }
+
+    .note-entry {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .note-entry:last-child { border-bottom: none; }
+
+    .note-link {
+      display: block;
+      padding: 1.25rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.25s;
+    }
+
+    .note-link:hover {
+      background: var(--highlight);
+    }
+
+    .note-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 3px;
+      padding: 0.15rem 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .note-link h3 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      line-height: 1.35;
+    }
+
+    .note-link p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
     /* --- CV Section --- */
     .cv-section p {
       margin-bottom: 1rem;
@@ -507,6 +579,10 @@ focusing on energy transport, plasma heating, and particle acceleration.
 
       <ul class="simple-list">
         <li>
+          <strong>Parker Solar Probe (PSP) Turbulence and Dissipation Working Group (Oral)</strong>
+          <div class="meta">2026 — “How to Effectively Utilize Phase Space (to Understand Turbulent Energy Dissipation).”</div>
+        </li>
+        <li>
           <strong>APS Division of Plasma Physics (Oral)</strong>
           <div class="meta">2025 — “Velocity-Space Signatures of Ion Cyclotron Damping Across Ion Plasma Beta Regimes.”</div>
         </li>
@@ -554,63 +630,39 @@ focusing on energy transport, plasma heating, and particle acceleration.
     </section>
 
     <section id="notes-preview">
-  <h2>Notes & Puzzles<span class="accent-dot">.</span></h2>
+      <h2>Notes & Puzzles<span class="accent-dot">.</span></h2>
 
-  <p style="margin-bottom:1.25rem; max-width:640px; color:var(--muted); line-height:1.75;">
-    In addition to my research, I enjoy collecting mathematical and physics puzzles,
-    writing short expository notes, and exploring curious structures that lie somewhere
-    between recreational mathematics and research ideas.
-  </p>
-
-  <div class="research-areas">
-
-    <div class="research-card">
-      <h3>Mathematical Puzzles</h3>
-      <p>
-        A collection of elegant problems from geometry, probability,
-        and mathematical physics, together with short explanations
-        and observations.
+      <p style="margin-bottom:1.25rem; max-width:640px; color:var(--muted); line-height:1.75;">
+        Expository notes, mathematical puzzles, and curious problems
+        from physics and mathematics — collected for fun and for the
+        joy of explanation.
       </p>
 
-      <p style="margin-top:0.7rem;">
-        <a href="notes/#math" style="color:var(--accent); text-decoration:none;">
-          Explore →
+      <ul class="notes-list">
+        <li class="note-entry">
+          <a href="notes/staircase.html" class="note-link">
+            <span class="note-tag">Math</span>
+            <h3>A Staircase Puzzle and the Fibonacci Numbers</h3>
+            <p>How many ways can you climb a staircase one or two steps at a time? A simple counting argument reveals the Fibonacci sequence.</p>
+          </a>
+        </li>
+        <!-- Add more notes here following the same pattern:
+        <li class="note-entry">
+          <a href="notes/your-note.html" class="note-link">
+            <span class="note-tag">Physics</span>
+            <h3>Title of Your Note</h3>
+            <p>Short description of the note.</p>
+          </a>
+        </li>
+        -->
+      </ul>
+
+      <p style="margin-top: 1.5rem;">
+        <a href="notes/" style="color: var(--accent); font-weight: 600; font-size: 0.9rem; text-decoration: none;">
+          Browse all notes →
         </a>
       </p>
-    </div>
-
-    <div class="research-card">
-      <h3>Physics Puzzles</h3>
-      <p>
-        Small conceptual puzzles from mechanics, electromagnetism,
-        and plasma physics that reveal deeper structures behind
-        familiar equations.
-      </p>
-
-      <p style="margin-top:0.7rem;">
-        <a href="notes/#physics" style="color:var(--accent); text-decoration:none;">
-          Explore →
-        </a>
-      </p>
-    </div>
-
-    <div class="research-card">
-      <h3>Research Notes & Essays</h3>
-      <p>
-        Informal writing on turbulence, plasma physics, scientific
-        computing, and explanation-driven physics.
-      </p>
-
-      <p style="margin-top:0.7rem;">
-        <a href="notes/" style="color:var(--accent); text-decoration:none;">
-          Browse all →
-        </a>
-      </p>
-    </div>
-
-  </div>
-
-</section>
+    </section>
 
     <!-- ========== Honors ==========
     <section id="honors">
