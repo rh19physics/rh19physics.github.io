@@ -24,9 +24,19 @@
 --accent:#4f7d9a;
 --muted:#7a7468;
 --rule:#d4cdc4;
+--nav-bg:rgba(245,240,235,0.9);
 
 --serif:'Libre Baskerville', Georgia, serif;
 --sans:'DM Sans', Helvetica, sans-serif;
+}
+
+[data-theme="dark"]{
+--ink:#e0dcd6;
+--paper:#161821;
+--accent:#6fa8c7;
+--muted:#9a958d;
+--rule:#2e3040;
+--nav-bg:rgba(22,24,33,0.9);
 }
 
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -37,6 +47,7 @@ background:var(--paper);
 color:var(--ink);
 line-height:1.75;
 font-size:17px;
+transition:background 0.35s, color 0.35s;
 }
 
 /* Navigation */
@@ -45,10 +56,11 @@ nav{
 position:fixed;
 top:0;
 width:100%;
-background:rgba(245,240,235,0.9);
+background:var(--nav-bg);
 border-bottom:1px solid var(--rule);
 backdrop-filter:blur(10px);
 padding:0 2rem;
+z-index:100;
 }
 
 .nav-inner{
@@ -67,8 +79,13 @@ text-decoration:none;
 color:var(--ink);
 }
 
+.nav-links{
+display:flex;
+align-items:center;
+gap:1.5rem;
+}
+
 .nav-links a{
-margin-left:1.5rem;
 font-size:0.8rem;
 text-transform:uppercase;
 letter-spacing:0.05em;
@@ -133,13 +150,39 @@ text-align:center;
 /* Code blocks */
 
 pre{
-background:#faf7f3;
+background:var(--highlight, #faf7f3);
 border:1px solid var(--rule);
 padding:1rem;
 border-radius:6px;
 overflow-x:auto;
 font-size:0.85rem;
 margin:1.4rem 0;
+}
+
+[data-theme="dark"] pre{
+background:#1d1f2b;
+}
+
+/* Theme Toggle */
+.theme-toggle{
+background:none;
+border:1px solid var(--rule);
+border-radius:50%;
+width:34px;
+height:34px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:1rem;
+color:var(--muted);
+transition:border-color 0.25s, color 0.25s;
+flex-shrink:0;
+}
+
+.theme-toggle:hover{
+border-color:var(--accent);
+color:var(--accent);
 }
 
 /* Links */
@@ -179,6 +222,7 @@ color:var(--muted);
 <a href="../index.html">Home</a>
 <a href="../index.html#research">Research</a>
 <a href="../notes/">Puzzles & Notes</a>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
 </div>
 
 </div>
@@ -330,6 +374,35 @@ end program fibo
 © 2026 Rui Huang · Puzzles & Notes
 
 </footer>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateIcon();
+    });
+
+    function updateIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.textContent = isDark ? '☀' : '☾';
+    }
+  })();
+</script>
 
 </body>
 </html>
