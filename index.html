@@ -200,7 +200,69 @@
 
     .contact-row a:hover { opacity: 0.7; }
 
-    .contact-row a .icon {
+    .email-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .email-display {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: opacity 0.2s;
+    }
+
+    .email-display:hover { opacity: 0.7; }
+
+    .email-popup {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 6px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 5px;
+      white-space: nowrap;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+
+    .email-popup::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-bottom-color: var(--ink);
+    }
+
+    .email-wrap.show-popup .email-popup {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .email-popup.copied {
+      background: var(--accent);
+    }
+
+    .email-popup.copied::before {
+      border-bottom-color: var(--accent);
+    }
+
+    .email-display .icon {
       font-size: 1rem;
       line-height: 1;
     }
@@ -511,9 +573,12 @@ focusing on energy transport, plasma heating, and particle acceleration.
           and scientific machine learning.
         </p>
         <div class="contact-row">
-          <a href="mailto:rui-huang@uiowa.edu">
-            <span class="icon">✉</span> rui-huang@uiowa.edu
-          </a>
+          <div class="email-wrap" id="emailWrap">
+            <span class="email-display" id="emailDisplay">
+              <span class="icon">✉</span> rui-huang@uiowa.edu
+            </span>
+            <span class="email-popup" id="emailPopup">Copy email</span>
+          </div>
           <a href="https://scholar.google.com/citations?user=E3uo-tMAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">
             <span class="icon">🎓</span> Google Scholar
           </a>
@@ -752,6 +817,39 @@ focusing on energy transport, plasma heating, and particle acceleration.
   <footer>
     © 2026 Rui Huang · Built with GitHub Pages
   </footer>
+
+  <script>
+    (function() {
+      var wrap    = document.getElementById('emailWrap');
+      var display = document.getElementById('emailDisplay');
+      var popup   = document.getElementById('emailPopup');
+
+      /* Click email text → show popup */
+      display.addEventListener('click', function(e) {
+        e.stopPropagation();
+        wrap.classList.toggle('show-popup');
+      });
+
+      /* Click "Copy email" popup → copy & show confirmation */
+      popup.addEventListener('click', function(e) {
+        e.stopPropagation();
+        navigator.clipboard.writeText('rui-huang@uiowa.edu').then(function() {
+          popup.textContent = 'Copied!';
+          popup.classList.add('copied');
+          setTimeout(function() {
+            popup.textContent = 'Copy email';
+            popup.classList.remove('copied');
+            wrap.classList.remove('show-popup');
+          }, 1500);
+        });
+      });
+
+      /* Click anywhere else → close popup */
+      document.addEventListener('click', function() {
+        wrap.classList.remove('show-popup');
+      });
+    })();
+  </script>
 
   <script>
     (function() {
