@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>A Staircase Puzzle and the Fibonacci Numbers</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- MathJax -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+:root{
+--ink:#1a1a2e;
+--paper:#f5f0eb;
+--accent:#4f7d9a;
+--muted:#7a7468;
+--rule:#d4cdc4;
+--nav-bg:rgba(245,240,235,0.9);
+
+--serif:'Libre Baskerville', Georgia, serif;
+--sans:'DM Sans', Helvetica, sans-serif;
+}
+
+[data-theme="dark"]{
+--ink:#e0dcd6;
+--paper:#161821;
+--accent:#6fa8c7;
+--muted:#9a958d;
+--rule:#2e3040;
+--nav-bg:rgba(22,24,33,0.9);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+font-family:var(--sans);
+background:var(--paper);
+color:var(--ink);
+line-height:1.75;
+font-size:17px;
+transition:background 0.35s, color 0.35s;
+}
+
+/* Navigation */
+
+nav{
+position:fixed;
+top:0;
+width:100%;
+background:var(--nav-bg);
+border-bottom:1px solid var(--rule);
+backdrop-filter:blur(10px);
+padding:0 2rem;
+z-index:100;
+}
+
+.nav-inner{
+max-width:900px;
+margin:0 auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+height:56px;
+}
+
+.nav-name{
+font-family:var(--serif);
+font-weight:700;
+text-decoration:none;
+color:var(--ink);
+}
+
+.nav-links{
+display:flex;
+align-items:center;
+gap:1.5rem;
+}
+
+.nav-links a{
+font-size:0.8rem;
+text-transform:uppercase;
+letter-spacing:0.05em;
+text-decoration:none;
+color:var(--muted);
+}
+
+.nav-links a:hover{color:var(--accent);}
+
+/* Article container */
+
+main{
+max-width:720px;
+margin:0 auto;
+padding:120px 1.5rem 60px;
+}
+
+/* Title */
+
+.article-title{
+font-family:var(--serif);
+font-size:2.2rem;
+line-height:1.2;
+margin-bottom:0.7rem;
+}
+
+.article-meta{
+color:var(--muted);
+font-size:0.9rem;
+margin-bottom:2rem;
+}
+
+/* Headings */
+
+h2{
+font-family:var(--serif);
+margin-top:2.5rem;
+margin-bottom:0.7rem;
+font-size:1.4rem;
+}
+
+/* Paragraphs */
+
+p{
+margin-bottom:1.2rem;
+}
+
+/* Tables */
+
+table{
+border-collapse:collapse;
+margin:1.5rem 0;
+font-size:0.95rem;
+}
+
+th,td{
+border:1px solid var(--rule);
+padding:0.5rem 0.9rem;
+text-align:center;
+}
+
+/* Code blocks */
+
+pre{
+background:var(--highlight, #faf7f3);
+border:1px solid var(--rule);
+padding:1rem;
+border-radius:6px;
+overflow-x:auto;
+font-size:0.85rem;
+margin:1.4rem 0;
+}
+
+[data-theme="dark"] pre{
+background:#1d1f2b;
+}
+
+/* Theme Toggle */
+.theme-toggle{
+background:none;
+border:1px solid var(--rule);
+border-radius:50%;
+width:34px;
+height:34px;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:1rem;
+color:var(--muted);
+transition:border-color 0.25s, color 0.25s;
+flex-shrink:0;
+}
+
+.theme-toggle:hover{
+border-color:var(--accent);
+color:var(--accent);
+}
+
+/* Links */
+
+a{
+color:var(--accent);
+text-decoration:none;
+}
+
+a:hover{
+text-decoration:underline;
+}
+
+/* Footer */
+
+footer{
+max-width:900px;
+margin:0 auto;
+padding:2rem;
+border-top:1px solid var(--rule);
+text-align:center;
+font-size:0.8rem;
+color:var(--muted);
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav-inner">
+
+<a href="../index.html" class="nav-name">Rui Huang</a>
+
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../index.html#research">Research</a>
+<a href="../notes/">Puzzles & Notes</a>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
+</div>
+
+</div>
+</nav>
+
+
+<main>
+
+<h1 class="article-title">
+A Staircase Puzzle and the Fibonacci Numbers
+</h1>
+
+<div class="article-meta">
+Puzzle note · Mathematics · Originally written by me on Jan 09, 2023
+</div>
+
+
+<p>
+
+Imagine a staircase with <strong>10 steps</strong>.  
+Each move you make can climb either <strong>one step</strong> or <strong>two steps</strong>.
+
+How many different ways are there to reach the top?
+
+What if the staircase has <strong>100 steps</strong> instead?
+
+</p>
+
+
+<h2>Start with small cases</h2>
+
+<p>
+
+If the staircase has <strong>1 step</strong>, there is only one way to climb it.
+
+If the staircase has <strong>2 steps</strong>, there are two ways:
+
+</p>
+
+<ul>
+<li>1 + 1</li>
+<li>2</li>
+</ul>
+
+<p>
+
+Continuing this process gives the following pattern.
+
+</p>
+
+
+<table>
+
+<tr>
+<th>Steps</th>
+<th>Ways</th>
+</tr>
+
+<tr><td>1</td><td>1</td></tr>
+<tr><td>2</td><td>2</td></tr>
+<tr><td>3</td><td>3</td></tr>
+<tr><td>4</td><td>5</td></tr>
+<tr><td>5</td><td>8</td></tr>
+
+</table>
+
+
+<p>
+
+These numbers form the <strong>Fibonacci sequence</strong>.
+
+</p>
+
+
+<h2>Why Fibonacci appears</h2>
+
+<p>
+
+Suppose the staircase has \(n\) steps.
+
+The final move must be either
+
+</p>
+
+<ul>
+<li>a single step</li>
+<li>a double step</li>
+</ul>
+
+<p>
+
+If the last move is one step, the previous position must be step \(n-1\).
+
+If the last move is two steps, the previous position must be step \(n-2\).
+
+Therefore
+
+</p>
+
+<p>
+
+\[
+F(n) = F(n-1) + F(n-2)
+\]
+
+</p>
+
+
+<p>
+
+which is exactly the defining rule of the Fibonacci sequence.
+
+</p>
+
+
+<h2>A small FORTRAN program</h2>
+
+<pre>
+program fibo
+
+implicit none
+
+integer :: i, j
+integer, allocatable :: n(:)
+
+print *, "input the index"
+read *, i
+
+allocate(n(i))
+
+n(1) = 1
+n(2) = 2
+
+do j = 3, i
+n(j) = n(j-1) + n(j-2)
+end do
+
+print *, n(i)
+
+end program fibo
+</pre>
+
+
+</main>
+
+
+<footer>
+
+© 2026 Rui Huang · Puzzles & Notes
+
+</footer>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateIcon();
+    });
+
+    function updateIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.textContent = isDark ? '☀' : '☾';
+    }
+  })();
+</script>
+
+</body>
+</html>

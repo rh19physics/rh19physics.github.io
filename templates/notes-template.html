@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ============================================================
+     NOTE TEMPLATE — Rui Huang
+     ============================================================
+     QUICK START
+     1. Copy this file and rename it (e.g. my-note.html).
+     2. Replace the <title>, article-title, and article-meta.
+     3. Write your content in <main>.
+     4. Delete the demo sections you don't need.
+     ============================================================ -->
+
+<title>Note Template — Syntax Reference</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- MathJax — equation numbering turned on -->
+<script>
+window.MathJax = {
+  tex: {
+    tags: 'ams',           /* auto-number only \begin{equation} blocks  */
+    tagSide: 'right',
+    macros: {               /* add your own shortcuts here               */
+      vb:  ['{\\mathbf{#1}}', 1],       /* \vb{v}  → bold vector         */
+      pd:  ['{\\partial}', 0],           /* \pd     → ∂                   */
+      dd:  ['{\\mathrm{d}}', 0],         /* \dd     → upright d           */
+      avg: ['{\\langle #1 \\rangle}', 1] /* \avg{x} → ⟨x⟩                */
+    }
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+/* ============================================================
+   CSS — identical to your other notes, with a few additions
+   ============================================================ */
+
+:root{
+--ink:#1a1a2e;
+--paper:#f5f0eb;
+--accent:#4f7d9a;
+--muted:#7a7468;
+--rule:#d4cdc4;
+--highlight:#fdf8f4;
+--nav-bg:rgba(245,240,235,0.9);
+--serif:'Libre Baskerville', Georgia, serif;
+--sans:'DM Sans', Helvetica, sans-serif;
+}
+
+[data-theme="dark"]{
+--ink:#e0dcd6;
+--paper:#161821;
+--accent:#6fa8c7;
+--muted:#9a958d;
+--rule:#2e3040;
+--highlight:#1d1f2b;
+--nav-bg:rgba(22,24,33,0.9);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+font-family:var(--sans);
+background:var(--paper);
+color:var(--ink);
+line-height:1.75;
+font-size:17px;
+transition:background 0.35s, color 0.35s;
+}
+
+/* Navigation */
+
+nav{
+position:fixed;top:0;width:100%;
+background:var(--nav-bg);
+border-bottom:1px solid var(--rule);
+backdrop-filter:blur(10px);
+padding:0 2rem;z-index:100;
+}
+
+.nav-inner{
+max-width:900px;margin:0 auto;
+display:flex;justify-content:space-between;
+align-items:center;height:56px;
+}
+
+.nav-name{
+font-family:var(--serif);font-weight:700;
+text-decoration:none;color:var(--ink);
+}
+
+.nav-links{
+display:flex;align-items:center;gap:1.5rem;
+}
+
+.nav-links a{
+font-size:0.8rem;text-transform:uppercase;
+letter-spacing:0.05em;text-decoration:none;
+color:var(--muted);
+}
+
+.nav-links a:hover{color:var(--accent);}
+
+/* Article */
+
+main{
+max-width:720px;margin:0 auto;
+padding:120px 1.5rem 60px;
+}
+
+.article-title{
+font-family:var(--serif);
+font-size:2.2rem;line-height:1.2;
+margin-bottom:0.7rem;
+}
+
+.article-meta{
+color:var(--muted);font-size:0.9rem;
+margin-bottom:2rem;
+}
+
+/* Headings */
+
+h2{
+font-family:var(--serif);
+margin-top:2.5rem;margin-bottom:0.7rem;
+font-size:1.4rem;
+}
+
+h3{
+font-family:var(--serif);
+margin-top:1.8rem;margin-bottom:0.5rem;
+font-size:1.15rem;
+}
+
+/* Paragraphs & lists */
+
+p{margin-bottom:1.2rem;}
+
+ul,ol{
+margin:0.5rem 0 1.2rem 1.5rem;
+}
+
+li{margin-bottom:0.35rem;}
+
+/* Tables */
+
+table{
+border-collapse:collapse;
+margin:1.5rem auto;
+font-size:0.95rem;
+}
+
+th,td{
+border:1px solid var(--rule);
+padding:0.5rem 0.9rem;
+text-align:center;
+}
+
+th{
+background:var(--highlight);
+font-weight:600;
+}
+
+caption{
+font-size:0.88rem;
+color:var(--muted);
+margin-bottom:0.5rem;
+font-style:italic;
+}
+
+/* Code */
+
+code{
+font-size:0.88em;
+background:var(--highlight);
+padding:0.15em 0.4em;
+border-radius:3px;
+}
+
+pre{
+background:var(--highlight);
+border:1px solid var(--rule);
+padding:1rem;border-radius:6px;
+overflow-x:auto;font-size:0.85rem;
+margin:1.4rem 0;
+}
+
+pre code{
+background:none;padding:0;
+}
+
+[data-theme="dark"] pre{background:#1d1f2b;}
+[data-theme="dark"] code{background:#1d1f2b;}
+
+/* Links */
+
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ============================================================
+   FIGURES & CAPTIONS
+   ============================================================ */
+
+figure{
+margin:2rem 0;
+text-align:center;
+}
+
+figure img{
+max-width:100%;
+height:auto;
+border-radius:4px;
+border:1px solid var(--rule);
+}
+
+figcaption{
+font-size:0.88rem;
+color:var(--muted);
+margin-top:0.6rem;
+line-height:1.55;
+max-width:560px;
+margin-left:auto;
+margin-right:auto;
+}
+
+figcaption strong{
+color:var(--ink);
+}
+
+/* Side-by-side figures */
+
+.fig-row{
+display:flex;
+gap:1.5rem;
+margin:2rem 0;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.fig-row figure{
+flex:1 1 250px;
+margin:0;
+}
+
+/* ============================================================
+   CALLOUT BOXES  (note, warning, theorem, proof, definition)
+   ============================================================ */
+
+.callout{
+border-left:4px solid var(--accent);
+background:var(--highlight);
+padding:1rem 1.25rem;
+margin:1.5rem 0;
+border-radius:0 6px 6px 0;
+}
+
+.callout-label{
+font-weight:700;
+font-size:0.85rem;
+text-transform:uppercase;
+letter-spacing:0.04em;
+color:var(--accent);
+margin-bottom:0.4rem;
+}
+
+.callout p:last-child{margin-bottom:0;}
+
+.callout.warning{border-left-color:#c0783a;}
+.callout.warning .callout-label{color:#c0783a;}
+
+/* Theorem / Proof / Definition boxes */
+
+.theorem{
+border:1px solid var(--rule);
+background:var(--highlight);
+padding:1.25rem 1.5rem;
+margin:1.5rem 0;
+border-radius:6px;
+}
+
+.theorem-label{
+font-family:var(--serif);
+font-weight:700;
+font-size:0.95rem;
+margin-bottom:0.5rem;
+}
+
+.theorem p:last-child{margin-bottom:0;}
+
+.proof{
+margin:1rem 0 1.5rem;
+padding-left:1.25rem;
+border-left:2px solid var(--rule);
+}
+
+.proof-label{
+font-style:italic;
+font-weight:600;
+margin-bottom:0.4rem;
+}
+
+.proof .qed{
+text-align:right;
+color:var(--muted);
+}
+
+/* ============================================================
+   FOOTNOTES
+   ============================================================ */
+
+.footnotes{
+margin-top:3rem;
+padding-top:1.5rem;
+border-top:1px solid var(--rule);
+font-size:0.88rem;
+color:var(--muted);
+}
+
+.footnotes ol{
+margin-left:1.25rem;
+}
+
+.footnotes li{
+margin-bottom:0.6rem;
+}
+
+sup a{
+color:var(--accent);
+text-decoration:none;
+font-weight:600;
+}
+
+/* ============================================================
+   REFERENCES / BIBLIOGRAPHY
+   ============================================================ */
+
+.references{
+margin-top:2.5rem;
+}
+
+.references ol{
+list-style:none;
+counter-reset:ref;
+margin-left:0;
+}
+
+.references li{
+counter-increment:ref;
+padding-left:2.5rem;
+text-indent:-2.5rem;
+margin-bottom:0.8rem;
+font-size:0.9rem;
+line-height:1.6;
+}
+
+.references li::before{
+content:'[' counter(ref) '] ';
+font-weight:700;
+color:var(--accent);
+}
+
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+
+.theme-toggle{
+background:none;
+border:1px solid var(--rule);
+border-radius:50%;
+width:34px;height:34px;
+cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+font-size:1rem;color:var(--muted);
+transition:border-color 0.25s, color 0.25s;
+flex-shrink:0;
+}
+
+.theme-toggle:hover{
+border-color:var(--accent);
+color:var(--accent);
+}
+
+/* Footer */
+
+footer{
+max-width:900px;margin:0 auto;
+padding:2rem;
+border-top:1px solid var(--rule);
+text-align:center;font-size:0.8rem;
+color:var(--muted);
+}
+
+/* Responsive */
+
+@media(max-width:600px){
+  .article-title{font-size:1.7rem;}
+  .fig-row{flex-direction:column;align-items:center;}
+  .fig-row figure{flex:1 1 100%;}
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav-inner">
+<a href="../index.html" class="nav-name">Rui Huang</a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../index.html#research">Research</a>
+<a href="../notes/">Puzzles &amp; Notes</a>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
+</div>
+</div>
+</nav>
+
+
+<main>
+
+<h1 class="article-title">
+Note Template — Syntax Reference
+</h1>
+
+<div class="article-meta">
+Template · Last updated 2026
+</div>
+
+
+<!-- ============================================================
+     § 1  EQUATIONS
+     ============================================================ -->
+
+<h2>1 &ensp; Equations</h2>
+
+<h3>Inline math</h3>
+
+<p>
+Use <code>\( ... \)</code> for inline math.
+For example, the energy is \(E = \frac{1}{2}mv^2\),
+the Boltzmann factor is \(e^{-\beta \varepsilon}\),
+and a gradient is \(\nabla \cdot \vb{B} = 0\).
+</p>
+
+<h3>Display equations (unnumbered)</h3>
+
+<p>
+Use <code>\[ ... \]</code> for a centred, unnumbered equation:
+</p>
+
+\[
+\frac{\pd f}{\pd t}
++ \vb{v}\cdot\nabla f
++ \frac{q}{m}\!\left(\vb{E}+\vb{v}\times\vb{B}\right)\cdot\nabla_v f
+= \left(\frac{\pd f}{\pd t}\right)_{\!c}
+\]
+
+<h3>Numbered equations</h3>
+
+<p>
+Wrap in <code>\begin{equation} ... \end{equation}</code> for auto-numbering.
+You can label and reference them.
+</p>
+
+\begin{equation}
+\nabla\times\vb{E} = -\frac{\pd \vb{B}}{\pd t}
+\label{eq:faraday}
+\end{equation}
+
+<p>
+Reference it like this: Faraday's law is Eq.&nbsp;\(\eqref{eq:faraday}\).
+</p>
+
+<h3>Multi-line / aligned equations</h3>
+
+<p>Use <code>\begin{align} ... \end{align}</code>
+(each line numbered) or <code>align*</code> (no numbers).
+Use <code>&amp;</code> for alignment and <code>\\</code> for line breaks.</p>
+
+\begin{align}
+\nabla \cdot  \vb{E} &= \frac{\rho}{\varepsilon_0}    \label{eq:gauss}   \\
+\nabla \cdot  \vb{B} &= 0                               \label{eq:divB}    \\
+\nabla \times \vb{E} &= -\frac{\pd \vb{B}}{\pd t}      \label{eq:faradayM}\\
+\nabla \times \vb{B} &= \mu_0\vb{J}
+                        + \mu_0\varepsilon_0
+                          \frac{\pd \vb{E}}{\pd t}       \label{eq:ampere}
+\end{align}
+
+<p>
+Maxwell's equations: \(\eqref{eq:gauss}\)–\(\eqref{eq:ampere}\).
+</p>
+
+<h3>Cases / piecewise</h3>
+
+\[
+f(x) =
+\begin{cases}
+  1  & x > 0 \\
+  0  & x = 0 \\
+ -1  & x < 0
+\end{cases}
+\]
+
+<h3>Matrices</h3>
+
+\[
+\mathsf{T} =
+\begin{pmatrix}
+T_{xx} & T_{xy} & T_{xz} \\
+T_{yx} & T_{yy} & T_{yz} \\
+T_{zx} & T_{zy} & T_{zz}
+\end{pmatrix}
+\]
+
+<h3>Custom macros</h3>
+
+<p>
+Macros defined in the MathJax config at the top of this file:
+<code>\vb{v}</code> → \(\vb{v}\),
+<code>\pd</code> → \(\pd\),
+<code>\dd</code> → \(\dd\),
+<code>\avg{x}</code> → \(\avg{x}\).
+Add your own in the <code>macros</code> object.
+</p>
+
+
+<!-- ============================================================
+     § 2  FIGURES
+     ============================================================ -->
+
+<h2>2 &ensp; Figures</h2>
+
+<h3>Single figure with caption</h3>
+
+<!-- Replace src with your actual image path, e.g. ../files/img/figure1.png -->
+<figure>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Pleiades_large.jpg/600px-Pleiades_large.jpg"
+       alt="Pleiades star cluster">
+  <figcaption>
+    <strong>Figure 1.</strong> The Pleiades open cluster.
+    Image credit: NASA / ESA / AURA / Caltech.
+  </figcaption>
+</figure>
+
+<p>
+For local images, put them in <code>../files/img/</code> and use a relative path:
+</p>
+
+<pre><code>&lt;figure&gt;
+  &lt;img src="../files/img/my_plot.png" alt="description"&gt;
+  &lt;figcaption&gt;
+    &lt;strong&gt;Figure N.&lt;/strong&gt; Caption text here.
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+<h3>Side-by-side figures</h3>
+
+<div class="fig-row">
+  <figure>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Magnetic_field_of_horseshoe_magnet.png/220px-Magnetic_field_of_horseshoe_magnet.png"
+         alt="Horseshoe magnet field lines">
+    <figcaption><strong>Figure 2a.</strong> Magnetic field of a horseshoe magnet.</figcaption>
+  </figure>
+  <figure>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Magnet0873.png/220px-Magnet0873.png"
+         alt="Bar magnet field lines">
+    <figcaption><strong>Figure 2b.</strong> Field lines of a bar magnet visualised with iron filings.</figcaption>
+  </figure>
+</div>
+
+<pre><code>&lt;div class="fig-row"&gt;
+  &lt;figure&gt;
+    &lt;img src="fig_a.png" alt="..."&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure 2a.&lt;/strong&gt; ...&lt;/figcaption&gt;
+  &lt;/figure&gt;
+  &lt;figure&gt;
+    &lt;img src="fig_b.png" alt="..."&gt;
+    &lt;figcaption&gt;&lt;strong&gt;Figure 2b.&lt;/strong&gt; ...&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/div&gt;</code></pre>
+
+<h3>Controlling figure width</h3>
+
+<p>
+Add an inline <code>style</code> to constrain size:
+</p>
+
+<pre><code>&lt;figure&gt;
+  &lt;img src="small_diagram.png" alt="..."
+       style="max-width: 360px;"&gt;
+  &lt;figcaption&gt;...&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+
+<!-- ============================================================
+     § 3  CALLOUTS, THEOREMS, PROOFS
+     ============================================================ -->
+
+<h2>3 &ensp; Callout boxes</h2>
+
+<div class="callout">
+  <div class="callout-label">Note</div>
+  <p>
+    This is a general-purpose callout for remarks, tips, or asides.
+    Change the label text to anything you like.
+  </p>
+</div>
+
+<div class="callout warning">
+  <div class="callout-label">Warning</div>
+  <p>
+    This variant uses an amber left border for warnings or caveats.
+  </p>
+</div>
+
+<pre><code>&lt;div class="callout"&gt;
+  &lt;div class="callout-label"&gt;Note&lt;/div&gt;
+  &lt;p&gt;Your remark here.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- warning variant --&gt;
+&lt;div class="callout warning"&gt;
+  &lt;div class="callout-label"&gt;Warning&lt;/div&gt;
+  &lt;p&gt;...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+
+<h2>4 &ensp; Theorems &amp; proofs</h2>
+
+<div class="theorem">
+  <div class="theorem-label">Theorem 1 (Parseval's theorem).</div>
+  <p>
+    If \(f(x)\) is square-integrable on \([-L, L]\) with Fourier coefficients
+    \(c_n\), then
+    \[
+      \frac{1}{2L}\int_{-L}^{L} |f(x)|^2\,\dd x
+      = \sum_{n=-\infty}^{\infty} |c_n|^2.
+    \]
+  </p>
+</div>
+
+<div class="proof">
+  <div class="proof-label">Proof.</div>
+  <p>
+    Expand \(|f|^2 = f\bar{f}\) in Fourier series and integrate
+    term by term, using orthogonality of \(e^{i n\pi x/L}\).
+  </p>
+  <div class="qed">∎</div>
+</div>
+
+<pre><code>&lt;div class="theorem"&gt;
+  &lt;div class="theorem-label"&gt;Theorem 1 (Name).&lt;/div&gt;
+  &lt;p&gt;Statement with \( math \) ...&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;div class="proof"&gt;
+  &lt;div class="proof-label"&gt;Proof.&lt;/div&gt;
+  &lt;p&gt;Proof body ...&lt;/p&gt;
+  &lt;div class="qed"&gt;∎&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+
+<!-- ============================================================
+     § 5  TABLES
+     ============================================================ -->
+
+<h2>5 &ensp; Tables</h2>
+
+<table>
+<caption>Table 1. Characteristic plasma parameters.</caption>
+<tr>
+  <th>Parameter</th>
+  <th>Symbol</th>
+  <th>Solar wind</th>
+  <th>Magnetosheath</th>
+</tr>
+<tr><td>Density</td><td>\(n\)</td><td>5 cm⁻³</td><td>20 cm⁻³</td></tr>
+<tr><td>Temperature</td><td>\(T_i\)</td><td>10 eV</td><td>100 eV</td></tr>
+<tr><td>Plasma beta</td><td>\(\beta_i\)</td><td>~1</td><td>~5</td></tr>
+</table>
+
+
+<!-- ============================================================
+     § 6  CODE BLOCKS
+     ============================================================ -->
+
+<h2>6 &ensp; Code</h2>
+
+<h3>Inline code</h3>
+
+<p>
+Use <code>&lt;code&gt;...&lt;/code&gt;</code> for inline snippets
+like <code>np.fft.fft(data)</code>.
+</p>
+
+<h3>Code blocks</h3>
+
+<pre><code>import numpy as np
+
+def energy_spectrum(B, dx):
+    """Compute the magnetic energy spectrum."""
+    Bk = np.fft.rfft(B) * dx
+    k  = np.fft.rfftfreq(len(B), d=dx) * 2 * np.pi
+    Ek = 0.5 * np.abs(Bk)**2 / len(B)
+    return k, Ek</code></pre>
+
+
+<!-- ============================================================
+     § 7  LISTS
+     ============================================================ -->
+
+<h2>7 &ensp; Lists</h2>
+
+<h3>Unordered</h3>
+<ul>
+  <li>Landau damping</li>
+  <li>Transit-time damping</li>
+  <li>Cyclotron damping</li>
+</ul>
+
+<h3>Ordered</h3>
+<ol>
+  <li>Initialise the distribution function.</li>
+  <li>Advance fields via Maxwell's equations.</li>
+  <li>Push particles and compute moments.</li>
+</ol>
+
+
+<!-- ============================================================
+     § 8  FOOTNOTES
+     ============================================================ -->
+
+<h2>8 &ensp; Footnotes</h2>
+
+<p>
+The Vlasov equation<sup><a href="#fn1" id="fnref1">1</a></sup>
+describes the evolution of the distribution function in the collisionless
+limit. It can be derived from the BBGKY hierarchy<sup><a href="#fn2" id="fnref2">2</a></sup>.
+</p>
+
+<div class="footnotes">
+<ol>
+  <li id="fn1">
+    Strictly, the Vlasov equation is the collisionless Boltzmann equation.
+    <a href="#fnref1">↩</a>
+  </li>
+  <li id="fn2">
+    Bogoliubov–Born–Green–Kirkwood–Yvon hierarchy; see Ichimaru (1973).
+    <a href="#fnref2">↩</a>
+  </li>
+</ol>
+</div>
+
+<pre><code>&lt;!-- In the text --&gt;
+Some claim&lt;sup&gt;&lt;a href="#fn1" id="fnref1"&gt;1&lt;/a&gt;&lt;/sup&gt;.
+
+&lt;!-- At the bottom --&gt;
+&lt;div class="footnotes"&gt;
+  &lt;ol&gt;
+    &lt;li id="fn1"&gt;
+      Footnote text. &lt;a href="#fnref1"&gt;↩&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</code></pre>
+
+
+<!-- ============================================================
+     § 9  REFERENCES / BIBLIOGRAPHY
+     ============================================================ -->
+
+<h2>9 &ensp; References</h2>
+
+<div class="references">
+<ol>
+  <li>
+    G.&nbsp;G.&nbsp;Howes, S.&nbsp;C.&nbsp;Cowley, W.&nbsp;Dorland, et al.,
+    "A model of turbulence in magnetised plasmas: implications for the
+    solar wind," <em>J. Geophys. Res.</em> <strong>113</strong>, A05103 (2008).
+  </li>
+  <li>
+    A.&nbsp;A.&nbsp;Schekochihin, S.&nbsp;C.&nbsp;Cowley, W.&nbsp;Dorland, et al.,
+    "Astrophysical gyrokinetics," <em>ApJS</em>
+    <strong>182</strong>, 310 (2009).
+  </li>
+  <li>
+    K.&nbsp;G.&nbsp;Klein and G.&nbsp;G.&nbsp;Howes,
+    "Measuring collisionless damping in heliospheric plasmas using
+    field–particle correlations,"
+    <em>ApJL</em> <strong>826</strong>, L30 (2016).
+  </li>
+</ol>
+</div>
+
+
+</main>
+
+
+<footer>
+© 2026 Rui Huang · Puzzles &amp; Notes
+</footer>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateIcon();
+    });
+
+    function updateIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.textContent = isDark ? '☀' : '☾';
+    }
+  })();
+</script>
+
+</body>
+</html>

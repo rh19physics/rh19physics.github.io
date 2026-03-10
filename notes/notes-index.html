@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Notes & Puzzles — Rui Huang</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+  --ink: #1a1a2e;
+  --paper: #f5f0eb;
+  --accent: #4f7d9a;
+  --muted: #7a7468;
+  --rule: #d4cdc4;
+  --highlight: #fdf8f4;
+  --nav-bg: rgba(245, 240, 235, 0.92);
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans: 'DM Sans', Helvetica, sans-serif;
+}
+
+[data-theme="dark"] {
+  --ink: #e0dcd6;
+  --paper: #161821;
+  --accent: #6fa8c7;
+  --muted: #9a958d;
+  --rule: #2e3040;
+  --highlight: #1d1f2b;
+  --nav-bg: rgba(22, 24, 33, 0.92);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.75;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.35s, color 0.35s;
+}
+
+/* --- Grain --- */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* --- Navigation --- */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0 2rem;
+  z-index: 100;
+}
+
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+}
+
+.nav-name {
+  font-family: var(--serif);
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.nav-links { display: flex; gap: 2rem; }
+
+.nav-links a {
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--muted);
+  transition: color 0.25s;
+}
+
+.nav-links a:hover { color: var(--accent); }
+.nav-links a.active { color: var(--accent); }
+
+/* --- Page --- */
+main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 120px 2rem 80px;
+}
+
+.page-title {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+}
+
+/* --- Filter Tags --- */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.filter-btn {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.filter-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* --- Notes List --- */
+.notes-list {
+  list-style: none;
+}
+
+.note-entry {
+  border-bottom: 1px solid var(--rule);
+}
+
+.note-entry:last-child { border-bottom: none; }
+
+.note-entry.hidden { display: none; }
+
+.note-link {
+  display: block;
+  padding: 1.5rem 1.25rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 0.25s;
+}
+
+.note-link:hover {
+  background: var(--highlight);
+}
+
+.note-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.note-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 0.12rem 0.45rem;
+}
+
+.note-date {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.note-link h3 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  line-height: 1.35;
+}
+
+.note-link p {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 600px;
+}
+
+/* --- Empty state --- */
+.empty-state {
+  display: none;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.empty-state.show { display: block; }
+
+/* --- Footer --- */
+footer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+/* --- Theme Toggle --- */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--muted);
+  transition: border-color 0.25s, color 0.25s;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .page-title { font-size: 1.7rem; }
+  .nav-links { gap: 1.25rem; }
+  .nav-links a { font-size: 0.78rem; }
+  .note-link { padding: 1.25rem 0.75rem; }
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-name">Rui Huang</a>
+    <div class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../index.html#research">Research</a>
+      <!-- <a href="./" class="active">Notes &amp; Puzzles</a> -->
+      <a href="../index.html#cv">CV</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <h1 class="page-title">Notes & Puzzles</h1>
+  <p class="page-subtitle">
+    Notes and puzzles from physics, math, and computer science, collected for fun and for the
+    joy of explanation.
+  </p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="math">Math</button>
+    <button class="filter-btn" data-filter="physics">Physics</button>
+    <button class="filter-btn" data-filter="computing">Computing</button>
+  </div>
+
+  <ul class="notes-list" id="notesList">
+
+    <li class="note-entry" data-category="math">
+      <a href="staircase.html" class="note-link">
+        <div class="note-meta">
+          <span class="note-tag">Math</span>
+          <span class="note-date">2026</span>
+        </div>
+        <h3>A Staircase Puzzle and the Fibonacci Numbers</h3>
+        <p>How many ways can you climb a staircase one or two steps at a time? And why does the Fibonacci sequence appear here?</p>
+      </a>
+    </li>
+
+    <li class="note-entry" data-category="math">
+      <a href="simpson.html" class="note-link">
+        <div class="note-meta">
+          <span class="note-tag">Math</span>
+          <span class="note-date">2026</span>
+        </div>
+            <h3>Simpson's Paradox</h3>
+            <p>There was a time when I was obsessed with the Gacha game called Arknights.</p>
+      </a>
+    </li>
+
+    <!-- ============================================================
+         ADD MORE NOTES HERE — copy this template:
+
+    <li class="note-entry" data-category="physics">
+      <a href="your-note-filename.html" class="note-link">
+        <div class="note-meta">
+          <span class="note-tag">Physics</span>
+          <span class="note-date">2026</span>
+        </div>
+        <h3>Title of Your Note</h3>
+        <p>Short description of the puzzle or note.</p>
+      </a>
+    </li>
+
+         Categories: math, physics, computing
+         ============================================================ -->
+
+  </ul>
+
+  <div class="empty-state" id="emptyState">
+    No notes in this category yet — check back soon.
+  </div>
+
+</main>
+
+<footer>
+  © 2026 Rui Huang · Built with GitHub Pages
+</footer>
+
+<script>
+// Simple category filter
+const buttons = document.querySelectorAll('.filter-btn');
+const entries = document.querySelectorAll('.note-entry');
+const empty   = document.getElementById('emptyState');
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+    let visible = 0;
+
+    entries.forEach(entry => {
+      if (filter === 'all' || entry.dataset.category === filter) {
+        entry.classList.remove('hidden');
+        visible++;
+      } else {
+        entry.classList.add('hidden');
+      }
+    });
+
+    empty.classList.toggle('show', visible === 0);
+  });
+});
+</script>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateIcon();
+    });
+
+    function updateIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.textContent = isDark ? '☀' : '☾';
+    }
+  })();
+</script>
+
+</body>
+</html>

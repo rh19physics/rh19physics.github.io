@@ -15,8 +15,19 @@
       --muted: #7a7468;
       --rule: #d4cdc4;
       --highlight: #fdf8f4;
+      --nav-bg: rgba(245, 240, 235, 0.92);
       --serif: 'Libre Baskerville', Georgia, serif;
       --sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --ink: #e0dcd6;
+      --paper: #161821;
+      --accent: #6fa8c7;
+      --muted: #9a958d;
+      --rule: #2e3040;
+      --highlight: #1d1f2b;
+      --nav-bg: rgba(22, 24, 33, 0.92);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -30,6 +41,7 @@
       line-height: 1.7;
       font-size: 16px;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.35s, color 0.35s;
     }
 
     /* --- Subtle grain texture --- */
@@ -47,7 +59,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(245, 240, 235, 0.92);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--rule);
@@ -188,7 +200,69 @@
 
     .contact-row a:hover { opacity: 0.7; }
 
-    .contact-row a .icon {
+    .email-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .email-display {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: opacity 0.2s;
+    }
+
+    .email-display:hover { opacity: 0.7; }
+
+    .email-popup {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 6px;
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 5px;
+      white-space: nowrap;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 10;
+    }
+
+    .email-popup::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-bottom-color: var(--ink);
+    }
+
+    .email-wrap.show-popup .email-popup {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .email-popup.copied {
+      background: var(--accent);
+    }
+
+    .email-popup.copied::before {
+      border-bottom-color: var(--accent);
+    }
+
+    .email-display .icon {
       font-size: 1rem;
       line-height: 1;
     }
@@ -305,6 +379,78 @@
 
     .pub-details .pub-links a:hover { opacity: 0.7; }
 
+    /* --- Talks --- */
+    .simple-list {
+      list-style: none;
+      margin-top: 0.5rem;
+    }
+
+    .simple-list li {
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.95rem;
+    }
+
+    .simple-list li:last-child { border-bottom: none; }
+
+    .simple-list .meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    /* --- Notes Preview --- */
+    .notes-list {
+      list-style: none;
+    }
+
+    .note-entry {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .note-entry:last-child { border-bottom: none; }
+
+    .note-link {
+      display: block;
+      padding: 1.25rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.25s;
+    }
+
+    .note-link:hover {
+      background: var(--highlight);
+    }
+
+    .note-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 3px;
+      padding: 0.15rem 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .note-link h3 {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      line-height: 1.35;
+    }
+
+    .note-link p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
     /* --- CV Section --- */
     .cv-section p {
       margin-bottom: 1rem;
@@ -339,6 +485,28 @@
       text-align: center;
       font-size: 0.82rem;
       color: var(--muted);
+    }
+
+    /* --- Theme Toggle --- */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--rule);
+      border-radius: 50%;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--muted);
+      transition: border-color 0.25s, color 0.25s;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     /* --- Responsive --- */
@@ -379,7 +547,9 @@
         <a href="#research">Research</a>
         <a href="#publications">Publications</a>
         <a href="#talks">Talks</a>
+        <a href="#notes-preview">Notes & Puzzles</a>
         <a href="#cv">CV</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
       </div>
     </div>
   </nav>
@@ -402,10 +572,16 @@ focusing on energy transport, plasma heating, and particle acceleration.
           I have worked with data from gyrokinetic and particle-in-cell (PIC) simulations and spacecraft observations. I am also interested in computational plasma physics, numerical methods for kinetic equations, 
           and scientific machine learning.
         </p>
+          <p class="intro" style="margin-top: 0.75rem;">
+          Beyond research, I enjoy solving twisting puzzles, writing expository notes and collecting interesting puzzles in math, physics, and programming.
+        </p>
         <div class="contact-row">
-          <a href="mailto:rui-huang@uiowa.edu">
-            <span class="icon">✉</span> rui-huang@uiowa.edu
-          </a>
+          <div class="email-wrap" id="emailWrap">
+            <span class="email-display" id="emailDisplay">
+              <span class="icon">✉</span> rui-huang@uiowa.edu
+            </span>
+            <span class="email-popup" id="emailPopup">Copy email</span>
+          </div>
           <a href="https://scholar.google.com/citations?user=E3uo-tMAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">
             <span class="icon">🎓</span> Google Scholar
           </a>
@@ -556,6 +732,48 @@ focusing on energy transport, plasma heating, and particle acceleration.
       </ul>
     </section>
 
+    <section id="notes-preview">
+      <h2>Notes & Puzzles<span class="accent-dot">.</span></h2>
+
+      <p style="margin-bottom:1.25rem; max-width:640px; color:var(--muted); line-height:1.75;">
+    Notes and puzzles from physics, math, and computer science, collected for fun and for the
+    joy of explanation.
+      </p>
+
+      <ul class="notes-list">
+        <li class="note-entry">
+          <a href="notes/staircase.html" class="note-link">
+            <span class="note-tag">Math</span>
+            <h3>A Staircase Puzzle and the Fibonacci Numbers</h3>
+            <p>How many ways can you climb a staircase one or two steps at a time? And why does the Fibonacci sequence appear here?</p>
+          </a>
+        </li>
+
+        <li class="note-entry">
+          <a href="notes/simpson.html" class="note-link">
+            <span class="note-tag">Math</span>
+            <h3>Simpson's Paradox</h3>
+            <p>There was a time when I was obsessed with the Gacha game called Arknights.</p>
+          </a>
+        </li>
+        <!-- Add more notes here following the same pattern:
+        <li class="note-entry">
+          <a href="notes/your-note.html" class="note-link">
+            <span class="note-tag">Physics</span>
+            <h3>Title of Your Note</h3>
+            <p>Short description of the note.</p>
+          </a>
+        </li>
+        -->
+      </ul>
+
+      <p style="margin-top: 1.5rem;">
+        <a href="notes/notes-index.html" style="color: var(--accent); font-weight: 600; font-size: 0.9rem; text-decoration: none;">
+          Browse all notes →
+        </a>
+      </p>
+    </section>
+
     <!-- ========== Honors ==========
     <section id="honors">
       <h2>Honors & Service<span class="accent-dot">.</span></h2>
@@ -609,6 +827,68 @@ focusing on energy transport, plasma heating, and particle acceleration.
   <footer>
     © 2026 Rui Huang · Built with GitHub Pages
   </footer>
+
+  <script>
+    (function() {
+      var wrap    = document.getElementById('emailWrap');
+      var display = document.getElementById('emailDisplay');
+      var popup   = document.getElementById('emailPopup');
+
+      /* Click email text → show popup */
+      display.addEventListener('click', function(e) {
+        e.stopPropagation();
+        wrap.classList.toggle('show-popup');
+      });
+
+      /* Click "Copy email" popup → copy & show confirmation */
+      popup.addEventListener('click', function(e) {
+        e.stopPropagation();
+        navigator.clipboard.writeText('rui-huang@uiowa.edu').then(function() {
+          popup.textContent = 'Copied!';
+          popup.classList.add('copied');
+          setTimeout(function() {
+            popup.textContent = 'Copy email';
+            popup.classList.remove('copied');
+            wrap.classList.remove('show-popup');
+          }, 1500);
+        });
+      });
+
+      /* Click anywhere else → close popup */
+      document.addEventListener('click', function() {
+        wrap.classList.remove('show-popup');
+      });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      const toggle = document.getElementById('themeToggle');
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = stored || (prefersDark ? 'dark' : 'light');
+
+      if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+      updateIcon();
+
+      toggle.addEventListener('click', () => {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+          document.documentElement.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          localStorage.setItem('theme', 'dark');
+        }
+        updateIcon();
+      });
+
+      function updateIcon() {
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        toggle.textContent = isDark ? '☀' : '☾';
+      }
+    })();
+  </script>
 
 </body>
 </html>
