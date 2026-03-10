@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>APS DPP 2025 Oral — Rui Huang</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- MathJax for abstract math -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+:root{
+--ink:#1a1a2e;
+--paper:#f5f0eb;
+--accent:#4f7d9a;
+--muted:#7a7468;
+--rule:#d4cdc4;
+--highlight:#fdf8f4;
+--nav-bg:rgba(245,240,235,0.9);
+--serif:'Libre Baskerville', Georgia, serif;
+--sans:'DM Sans', Helvetica, sans-serif;
+}
+
+[data-theme="dark"]{
+--ink:#e0dcd6;
+--paper:#161821;
+--accent:#6fa8c7;
+--muted:#9a958d;
+--rule:#2e3040;
+--highlight:#1d1f2b;
+--nav-bg:rgba(22,24,33,0.9);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+font-family:var(--sans);
+background:var(--paper);
+color:var(--ink);
+line-height:1.75;
+font-size:17px;
+transition:background 0.35s, color 0.35s;
+}
+
+/* Navigation */
+
+nav{
+position:fixed;top:0;width:100%;
+background:var(--nav-bg);
+border-bottom:1px solid var(--rule);
+backdrop-filter:blur(10px);
+padding:0 2rem;z-index:100;
+}
+
+.nav-inner{
+max-width:900px;margin:0 auto;
+display:flex;justify-content:space-between;
+align-items:center;height:56px;
+}
+
+.nav-name{
+font-family:var(--serif);font-weight:700;
+text-decoration:none;color:var(--ink);
+}
+
+.nav-links{
+display:flex;align-items:center;gap:1.5rem;
+}
+
+.nav-links a{
+font-size:0.8rem;text-transform:uppercase;
+letter-spacing:0.05em;text-decoration:none;
+color:var(--muted);
+}
+
+.nav-links a:hover{color:var(--accent);}
+
+/* Article */
+
+main{
+max-width:780px;margin:0 auto;
+padding:120px 1.5rem 60px;
+}
+
+.talk-title{
+font-family:var(--serif);
+font-size:1.85rem;line-height:1.25;
+margin-bottom:0.7rem;
+}
+
+.talk-meta{
+color:var(--muted);font-size:0.9rem;
+margin-bottom:2rem;
+display:flex;
+flex-wrap:wrap;
+gap:0.5rem 1.5rem;
+}
+
+.talk-meta .tag{
+display:inline-block;
+font-size:0.72rem;
+font-weight:600;
+text-transform:uppercase;
+letter-spacing:0.06em;
+color:var(--accent);
+border:1px solid var(--accent);
+border-radius:3px;
+padding:0.12rem 0.5rem;
+}
+
+/* Sections */
+
+h2{
+font-family:var(--serif);
+margin-top:2.5rem;margin-bottom:0.7rem;
+font-size:1.3rem;
+}
+
+p{margin-bottom:1.2rem;}
+
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* Abstract */
+
+.abstract{
+background:var(--highlight);
+border:1px solid var(--rule);
+border-radius:8px;
+padding:1.5rem 1.75rem;
+margin:1.5rem 0;
+line-height:1.8;
+}
+
+.abstract p:last-child{margin-bottom:0;}
+
+/* PDF Viewer */
+
+.pdf-viewer{
+margin:2rem 0;
+}
+
+.pdf-viewer iframe{
+width:100%;
+height:600px;
+border:1px solid var(--rule);
+border-radius:8px;
+background:var(--highlight);
+}
+
+.pdf-fallback{
+margin-top:0.75rem;
+font-size:0.88rem;
+color:var(--muted);
+}
+
+.pdf-fallback a{
+font-weight:600;
+}
+
+/* Back link */
+
+.back-link{
+display:inline-flex;
+align-items:center;
+gap:0.35rem;
+font-size:0.88rem;
+font-weight:500;
+color:var(--accent);
+text-decoration:none;
+margin-bottom:1.75rem;
+}
+
+.back-link:hover{opacity:0.7;text-decoration:none;}
+
+/* Theme Toggle */
+
+.theme-toggle{
+background:none;
+border:1px solid var(--rule);
+border-radius:50%;
+width:34px;height:34px;
+cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+font-size:1rem;color:var(--muted);
+transition:border-color 0.25s, color 0.25s;
+flex-shrink:0;
+}
+
+.theme-toggle:hover{
+border-color:var(--accent);
+color:var(--accent);
+}
+
+/* Footer */
+
+footer{
+max-width:900px;margin:0 auto;
+padding:2rem;
+border-top:1px solid var(--rule);
+text-align:center;font-size:0.8rem;
+color:var(--muted);
+}
+
+/* Responsive */
+
+@media(max-width:600px){
+  .talk-title{font-size:1.5rem;}
+  .pdf-viewer iframe{height:400px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav-inner">
+<a href="../index.html" class="nav-name">Rui Huang</a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../index.html#research">Research</a>
+<a href="../index.html#talks">Talks</a>
+<a href="../notes/">Notes</a>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
+</div>
+</div>
+</nav>
+
+
+<main>
+
+<a href="../index.html#talks" class="back-link">← Back to Talks</a>
+
+<h1 class="talk-title">
+Velocity-Space Signatures of Ion Cyclotron Damping Across Ion Plasma Beta Regimes
+</h1>
+
+<div class="talk-meta">
+  <span class="tag">Oral</span>
+  <span>APS Division of Plasma Physics · 2025</span>
+</div>
+
+
+<h2>Abstract</h2>
+
+<div class="abstract">
+<p>
+Ion cyclotron damping (iCD) is a key mechanism for dissipating electromagnetic
+wave energy in weakly collisional space plasmas. We use Liouville mapping
+combined with the field–particle correlation technique to reveal the
+velocity-space signature of iCD. This non-self-consistent approach efficiently
+captures the velocity-space distribution of how particles exchange energy with
+waves. We identify two features for iCD: (i) a quadrupolar energization pattern
+in the perpendicular \((v_x,\, v_y)\) plane, and (ii) localized energy transfer
+near the \(n = 1\) resonance in gyrotropic \((v_\parallel,\, v_\perp)\) space.
+Importantly, these signatures remain largely unchanged across a wide range of
+ion plasma beta, with minimal variation near the resonant velocity. This is the
+first study to systematically examine how the iCD velocity-space signature
+evolves with plasma beta, serving as a practical reference for detecting iCD in
+spacecraft observations across diverse \(\beta_i\) environments.
+</p>
+</div>
+
+
+<h2>Slides</h2>
+
+<div class="pdf-viewer">
+  <!-- Replace the src below with the path to your slides PDF.
+       For example: ../files/talks/apsdpp2025_oral.pdf
+       Put the PDF in files/talks/ (create that folder if needed). -->
+  <iframe
+    src="../files/docu/huang_apsdpp2025_lmfpc.pdf"
+    title="APS DPP 2025 Oral slides">
+  </iframe>
+  <p class="pdf-fallback">
+    PDF not loading?
+    <a href="../files/docu/huang_apsdpp2025_lmfpc.pdf" target="_blank" rel="noopener">
+      Open slides directly ↗
+    </a>
+  </p>
+</div>
+
+
+</main>
+
+
+<footer>
+© 2026 Rui Huang · Built with GitHub Pages
+</footer>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateIcon();
+    });
+
+    function updateIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.textContent = isDark ? '☀' : '☾';
+    }
+  })();
+</script>
+
+</body>
+</html>
