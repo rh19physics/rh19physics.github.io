@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Simpson's Paradox — Rui Huang</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- MathJax -->
+<script>
+window.MathJax = {
+  tex: {
+    tags: 'ams',
+    tagSide: 'right'
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+:root{
+--ink:#1a1a2e;
+--paper:#f5f0eb;
+--accent:#4f7d9a;
+--muted:#7a7468;
+--rule:#d4cdc4;
+--highlight:#fdf8f4;
+--nav-bg:rgba(245,240,235,0.9);
+--serif:'Libre Baskerville', Georgia, serif;
+--sans:'DM Sans', Helvetica, sans-serif;
+}
+
+[data-theme="dark"]{
+--ink:#e0dcd6;
+--paper:#161821;
+--accent:#6fa8c7;
+--muted:#9a958d;
+--rule:#2e3040;
+--highlight:#1d1f2b;
+--nav-bg:rgba(22,24,33,0.9);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+font-family:var(--sans);
+background:var(--paper);
+color:var(--ink);
+line-height:1.75;
+font-size:17px;
+transition:background 0.35s, color 0.35s;
+}
+
+nav{
+position:fixed;top:0;width:100%;
+background:var(--nav-bg);
+border-bottom:1px solid var(--rule);
+backdrop-filter:blur(10px);
+padding:0 2rem;z-index:100;
+}
+
+.nav-inner{
+max-width:900px;margin:0 auto;
+display:flex;justify-content:space-between;
+align-items:center;height:56px;
+}
+
+.nav-name{
+font-family:var(--serif);font-weight:700;
+text-decoration:none;color:var(--ink);
+}
+
+.nav-links{
+display:flex;align-items:center;gap:1.5rem;
+}
+
+.nav-links a{
+font-size:0.8rem;text-transform:uppercase;
+letter-spacing:0.05em;text-decoration:none;
+color:var(--muted);
+}
+
+.nav-links a:hover{color:var(--accent);}
+
+main{
+max-width:720px;margin:0 auto;
+padding:120px 1.5rem 60px;
+}
+
+.article-title{
+font-family:var(--serif);
+font-size:2.2rem;line-height:1.2;
+margin-bottom:0.7rem;
+}
+
+.article-meta{
+color:var(--muted);font-size:0.9rem;
+margin-bottom:2rem;
+}
+
+h2{
+font-family:var(--serif);
+margin-top:2.5rem;margin-bottom:0.7rem;
+font-size:1.4rem;
+}
+
+p{margin-bottom:1.2rem;}
+
+ul,ol{
+margin:0.5rem 0 1.2rem 1.5rem;
+}
+
+li{margin-bottom:0.35rem;}
+
+table{
+border-collapse:collapse;
+margin:1.5rem auto;
+font-size:0.95rem;
+}
+
+th,td{
+border:1px solid var(--rule);
+padding:0.5rem 0.9rem;
+text-align:center;
+}
+
+th{
+background:var(--highlight);
+font-weight:600;
+}
+
+figure{
+margin:2rem 0;
+text-align:center;
+}
+
+figure img{
+max-width:100%;
+height:auto;
+border-radius:4px;
+border:1px solid var(--rule);
+}
+
+figcaption{
+font-size:0.88rem;
+color:var(--muted);
+margin-top:0.6rem;
+line-height:1.55;
+max-width:560px;
+margin-left:auto;
+margin-right:auto;
+}
+
+figcaption strong{
+color:var(--ink);
+}
+
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+.callout{
+border-left:4px solid var(--accent);
+background:var(--highlight);
+padding:1rem 1.25rem;
+margin:1.5rem 0;
+border-radius:0 6px 6px 0;
+}
+
+.callout-label{
+font-weight:700;
+font-size:0.85rem;
+text-transform:uppercase;
+letter-spacing:0.04em;
+color:var(--accent);
+margin-bottom:0.4rem;
+}
+
+.callout p:last-child{margin-bottom:0;}
+
+.references{
+margin-top:2.5rem;
+}
+
+.references ol{
+list-style:none;
+counter-reset:ref;
+margin-left:0;
+}
+
+.references li{
+counter-increment:ref;
+padding-left:2.5rem;
+text-indent:-2.5rem;
+margin-bottom:0.8rem;
+font-size:0.9rem;
+line-height:1.6;
+}
+
+.references li::before{
+content:'[' counter(ref) '] ';
+font-weight:700;
+color:var(--accent);
+}
+
+.theme-toggle{
+background:none;
+border:1px solid var(--rule);
+border-radius:50%;
+width:34px;height:34px;
+cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+font-size:1rem;color:var(--muted);
+transition:border-color 0.25s, color 0.25s;
+flex-shrink:0;
+}
+
+.theme-toggle:hover{
+border-color:var(--accent);
+color:var(--accent);
+}
+
+footer{
+max-width:900px;margin:0 auto;
+padding:2rem;
+border-top:1px solid var(--rule);
+text-align:center;font-size:0.8rem;
+color:var(--muted);
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav-inner">
+<a href="../index.html" class="nav-name">Rui Huang</a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../index.html#research">Research</a>
+<a href="../notes/">Puzzles &amp; Notes</a>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
+</div>
+</div>
+</nav>
+
+
+<main>
+
+<h1 class="article-title">
+Simpson's Paradox
+</h1>
+
+<div class="article-meta">
+Puzzle note · Mathematics &amp; Statistics · Originally written by me on June 26, 2023
+</div>
+
+
+<h2>The puzzle</h2>
+
+<p>
+You and your friend both play a gacha game. At the end of the month you tally up
+how many pulls each of you made and how many high-star characters you pulled,
+and you find that your pull rate (high-star pulls ÷ total pulls) is higher than
+your friend's. Great news.
+</p>
+
+<p>
+Next month you do the same thing, and once again your pull rate beats your friend's.
+</p>
+
+<p>
+Now you combine the two months' data — adding up the total pulls and the high-star pulls
+for each person — expecting to confirm your superiority.
+To your surprise, your friend's combined pull rate is now <em>higher</em> than yours.
+</p>
+
+<p>
+What on earth happened?
+</p>
+
+
+<h2>The answer</h2>
+
+<p>
+This is an instance of <strong>Simpson's paradox</strong>, a phenomenon in probability
+and statistics where a trend that appears in several separate groups of data
+reverses or disappears when the groups are combined.
+And like many things labelled a "paradox," it is not a genuine logical
+contradiction — there is nothing inconsistent going on.
+It is simply counter-intuitive.
+</p>
+
+<p>
+(By the way, you should probably get used to the fact that once quantitative
+reasoning is involved, your intuition is wrong most of the time.
+So don't rely on it too heavily.)
+</p>
+
+
+<h2>A vector picture</h2>
+
+<p>
+We can visualise what is going on using vectors in a two-dimensional space.
+A pull rate is the ratio \(p/q\), where \(p\) is the number of high-star pulls
+and \(q\) is the total number of pulls. We represent this as an arrow from the
+origin to the point \((q,\,p)\). A <em>steeper</em> arrow (larger slope)
+corresponds to a higher pull rate.
+</p>
+
+<p>
+The beauty of this representation is that when we combine two months' data, we
+simply perform <strong>vector addition</strong> — the combined rate is the
+diagonal of the parallelogram formed by the two monthly arrows.
+</p>
+
+<!-- Replace the src below with your actual image, e.g. ../files/img/simpson_vectors.png -->
+<figure>
+  <img src="../files/img/SimpsonsParadoxVectorDiagram.png"
+       alt="Vector diagram illustrating Simpson's paradox">
+  <figcaption>
+    <strong>Figure 1.</strong> Each arrow represents a (total pulls, high-star pulls)
+    pair. Steeper = higher pull rate. Adding arrows = combining data.
+  </figcaption>
+</figure>
+
+<p>
+Suppose in the first month your pull rate is represented by \(\mathbf{B}_1\)
+and your friend's by \(\mathbf{L}_1\). As drawn, \(\mathbf{B}_1\) is steeper
+than \(\mathbf{L}_1\) — your rate is higher. In the second month the arrows
+are \(\mathbf{B}_2\) and \(\mathbf{L}_2\), and again yours is steeper.
+</p>
+
+<p>
+Now we add up the two months. Your combined arrow is
+\(\mathbf{B}_1 + \mathbf{B}_2\); your friend's is
+\(\mathbf{L}_1 + \mathbf{L}_2\). As the figure shows,
+\(\mathbf{L}_1 + \mathbf{L}_2\) is steeper than
+\(\mathbf{B}_1 + \mathbf{B}_2\).
+</p>
+
+<p>
+Look carefully at the diagram: \(\mathbf{L}_1 + \mathbf{L}_2\) is dominated
+by the long vector \(\mathbf{L}_2\), while
+\(\mathbf{B}_1 + \mathbf{B}_2\) is dominated by the long vector
+\(\mathbf{B}_1\). This is the key insight —
+<strong>length matters</strong>. The sum of two vectors is pulled toward whichever
+addend is longer.
+</p>
+
+<p>
+Notice further that \(\mathbf{L}_2\) is steeper than \(\mathbf{B}_1\).
+So the long, steep \(\mathbf{L}_2\) drags \(\mathbf{L}_1 + \mathbf{L}_2\)
+upward enough to overtake \(\mathbf{B}_1 + \mathbf{B}_2\).
+</p>
+
+<div class="callout">
+<div class="callout-label">Recipe for the paradox</div>
+<p>
+To produce the situation where \(\mathbf{B}_1\) is steeper than \(\mathbf{L}_1\)
+and \(\mathbf{B}_2\) is steeper than \(\mathbf{L}_2\), yet
+\(\mathbf{L}_1 + \mathbf{L}_2\) is steeper than
+\(\mathbf{B}_1 + \mathbf{B}_2\), you need:
+</p>
+<ol>
+  <li>Among \(\mathbf{B}_1\) and \(\mathbf{B}_2\), one is long and the other is short;
+      likewise for \(\mathbf{L}_1\) and \(\mathbf{L}_2\).</li>
+  <li>The longer of \(\mathbf{L}_1, \mathbf{L}_2\) is steeper than
+      the longer of \(\mathbf{B}_1, \mathbf{B}_2\).</li>
+</ol>
+</div>
+
+<p>
+What does "length" mean here? Since the endpoint of an arrow is \((q,\,p)\),
+a long arrow simply means a large number of total data points.
+</p>
+
+
+<h2>A concrete example</h2>
+
+<table>
+<tr>
+  <th></th>
+  <th colspan="2">Month 1</th>
+  <th colspan="2">Month 2</th>
+  <th colspan="2">Combined</th>
+</tr>
+<tr>
+  <th></th>
+  <th>High-star / Total</th><th>Rate</th>
+  <th>High-star / Total</th><th>Rate</th>
+  <th>High-star / Total</th><th>Rate</th>
+</tr>
+<tr>
+  <td><strong>You</strong></td>
+  <td>5 / 10</td><td>0.50</td>
+  <td>15 / 50</td><td>0.30</td>
+  <td>20 / 60</td><td><strong>0.33</strong></td>
+</tr>
+<tr>
+  <td><strong>Friend</strong></td>
+  <td>40 / 100</td><td>0.40</td>
+  <td>1 / 5</td><td>0.20</td>
+  <td>41 / 105</td><td><strong>0.39</strong></td>
+</tr>
+</table>
+
+<p>
+Month by month, you win: 0.50 > 0.40, and 0.30 > 0.20.
+But combined, your friend wins: 0.39 > 0.33.
+Your friend's overall rate is dragged up by the 100-pull month at 0.40,
+while your overall rate is dragged down by the 50-pull month at 0.30.
+</p>
+
+
+<h2>A parting thought</h2>
+
+<p>
+If this felt too simple, consider a more consequential setting. Suppose you see
+data showing that at some university, the admission rate for one gender is
+higher than the other in <em>every single department</em>. Before you rush to
+conclusions about that university's political leanings, maybe compute the
+overall admission rate across all departments yourself first.
+</p>
+
+
+<h2>References</h2>
+
+<div class="references">
+<ol>
+  <li>
+    D.&nbsp;Morin, <em>The Green-Eyed Dragons and Other Mathematical Monsters</em>.
+  </li>
+  <li>
+    Wikipedia,
+    "<a href="https://en.wikipedia.org/wiki/Simpson%27s_paradox" target="_blank" rel="noopener">Simpson's paradox</a>."
+  </li>
+</ol>
+</div>
+
+
+</main>
+
+
+<footer>
+© 2026 Rui Huang · Puzzles &amp; Notes
+</footer>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateIcon();
+    });
+
+    function updateIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.textContent = isDark ? '☀' : '☾';
+    }
+  })();
+</script>
+
+</body>
+</html>
