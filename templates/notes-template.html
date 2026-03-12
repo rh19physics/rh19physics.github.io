@@ -254,6 +254,49 @@ margin:0;
 }
 
 /* ============================================================
+   VIDEOS
+   ============================================================ */
+
+.video-wrap{
+margin:2rem 0;
+text-align:center;
+}
+
+.video-container{
+position:relative;
+width:100%;
+padding-bottom:56.25%; /* 16:9 aspect ratio */
+height:0;
+overflow:hidden;
+border-radius:6px;
+border:1px solid var(--rule);
+background:var(--highlight);
+}
+
+.video-container iframe,
+.video-container video{
+position:absolute;
+top:0;left:0;
+width:100%;height:100%;
+border:none;
+border-radius:6px;
+}
+
+.video-caption{
+font-size:0.88rem;
+color:var(--muted);
+margin-top:0.6rem;
+line-height:1.55;
+max-width:560px;
+margin-left:auto;
+margin-right:auto;
+}
+
+.video-caption strong{
+color:var(--ink);
+}
+
+/* ============================================================
    CALLOUT BOXES  (note, warning, theorem, proof, definition)
    ============================================================ */
 
@@ -601,6 +644,71 @@ Add an inline <code>style</code> to constrain size:
        style="max-width: 360px;"&gt;
   &lt;figcaption&gt;...&lt;/figcaption&gt;
 &lt;/figure&gt;</code></pre>
+
+
+<!-- ============================================================
+     § 2.5  VIDEOS
+     ============================================================ -->
+
+<h2>2.5 &ensp; Videos</h2>
+
+<h3>YouTube / external embed</h3>
+
+<p>
+Use the responsive <code>.video-container</code> wrapper to embed a
+YouTube or Vimeo video. It maintains a 16 : 9 aspect ratio at any width.
+</p>
+
+<div class="video-wrap">
+  <div class="video-container">
+    <!-- REPLACE: swap the src with your YouTube embed URL -->
+    <iframe
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+      title="Example YouTube video"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <p class="video-caption">
+    <strong>Video 1.</strong> Example YouTube embed. Replace the
+    <code>src</code> with your own video URL.
+  </p>
+</div>
+
+<pre><code>&lt;div class="video-wrap"&gt;
+  &lt;div class="video-container"&gt;
+    &lt;iframe
+      src="https://www.youtube.com/embed/VIDEO_ID"
+      title="Description"
+      allow="accelerometer; autoplay; clipboard-write;
+             encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen&gt;
+    &lt;/iframe&gt;
+  &lt;/div&gt;
+  &lt;p class="video-caption"&gt;
+    &lt;strong&gt;Video N.&lt;/strong&gt; Caption text.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+<h3>Local / self-hosted video</h3>
+
+<p>
+For a video file in your repo (e.g. <code>../files/video/simulation.mp4</code>),
+use a <code>&lt;video&gt;</code> tag instead of an iframe:
+</p>
+
+<pre><code>&lt;div class="video-wrap"&gt;
+  &lt;div class="video-container"&gt;
+    &lt;video controls preload="metadata"&gt;
+      &lt;source src="../files/video/simulation.mp4"
+              type="video/mp4"&gt;
+      Your browser does not support the video tag.
+    &lt;/video&gt;
+  &lt;/div&gt;
+  &lt;p class="video-caption"&gt;
+    &lt;strong&gt;Video N.&lt;/strong&gt; Caption text.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
 
 
 <!-- ============================================================
