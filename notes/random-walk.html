@@ -15,7 +15,7 @@
      4. Delete the demo sections you don't need.
      ============================================================ -->
 
-<title>Note Template — Syntax Reference</title>
+<title>Random Walk Visualization — Rui Huang</title>
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -462,6 +462,8 @@ color:var(--muted);
 <a href="../index.html" class="nav-name">Rui Huang</a>
 <div class="nav-links">
 <a href="../index.html">Home</a>
+<a href="../index.html#research">Research</a>
+<a href="../notes/">Puzzles &amp; Notes</a>
 <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
 </div>
 </div>
@@ -471,178 +473,24 @@ color:var(--muted);
 <main>
 
 <h1 class="article-title">
-Note Template — Syntax Reference
+Random Walk Visualization
 </h1>
 
 <div class="article-meta">
-Template · Last updated 2026
+Visualization · Mathematics &amp; Physics · Originally written by me on Mar 12, 2026
 </div>
 
-
-<!-- ============================================================
-     § 1  EQUATIONS
-     ============================================================ -->
-
-<h2>1 &ensp; Equations</h2>
-
-<h3>Inline math</h3>
-
 <p>
-Use <code>\( ... \)</code> for inline math.
-For example, the energy is \(E = \frac{1}{2}mv^2\),
-the Boltzmann factor is \(e^{-\beta \varepsilon}\),
-and a gradient is \(\nabla \cdot \vb{B} = 0\).
+My interest in random walks, stochastic processes, and Markov chains grew out of my research on ion stochastic heating, which is one of the key mechanisms behind turbulence dissipation in weakly collisional plasmas.
 </p>
 
-<h3>Display equations (unnumbered)</h3>
-
 <p>
-Use <code>\[ ... \]</code> for a centred, unnumbered equation:
+In space plasma physics, stochastic heating is typically described something like this: large-amplitude turbulent electromagnetic fluctuations break the gyromotion of ions, violating the first adiabatic invariant (the magnetic moment) and producing stochastic orbits. As a result, ions gain energy in a manner akin to a random walk, with heating occurring predominantly perpendicular to the magnetic field.
 </p>
 
-\[
-\frac{\pd f}{\pd t}
-+ \vb{v}\cdot\nabla f
-+ \frac{q}{m}\!\left(\vb{E}+\vb{v}\times\vb{B}\right)\cdot\nabla_v f
-= \left(\frac{\pd f}{\pd t}\right)_{\!c}
-\]
-
-<h3>Numbered equations</h3>
-
 <p>
-Wrap in <code>\begin{equation} ... \end{equation}</code> for auto-numbering.
-You can label and reference them.
+Phrases like "a manner akin to a random walk" kept appearing, and I realized I didn't have a strong intuition for what it really meant. So I dug into it.
 </p>
-
-\begin{equation}
-\nabla\times\vb{E} = -\frac{\pd \vb{B}}{\pd t}
-\label{eq:faraday}
-\end{equation}
-
-<p>
-Reference it like this: Faraday's law is Eq.&nbsp;\(\eqref{eq:faraday}\).
-</p>
-
-<h3>Multi-line / aligned equations</h3>
-
-<p>Use <code>\begin{align} ... \end{align}</code>
-(each line numbered) or <code>align*</code> (no numbers).
-Use <code>&amp;</code> for alignment and <code>\\</code> for line breaks.</p>
-
-\begin{align}
-\nabla \cdot  \vb{E} &= \frac{\rho}{\varepsilon_0}    \label{eq:gauss}   \\
-\nabla \cdot  \vb{B} &= 0                               \label{eq:divB}    \\
-\nabla \times \vb{E} &= -\frac{\pd \vb{B}}{\pd t}      \label{eq:faradayM}\\
-\nabla \times \vb{B} &= \mu_0\vb{J}
-                        + \mu_0\varepsilon_0
-                          \frac{\pd \vb{E}}{\pd t}       \label{eq:ampere}
-\end{align}
-
-<p>
-Maxwell's equations: \(\eqref{eq:gauss}\)–\(\eqref{eq:ampere}\).
-</p>
-
-<h3>Cases / piecewise</h3>
-
-\[
-f(x) =
-\begin{cases}
-  1  & x > 0 \\
-  0  & x = 0 \\
- -1  & x < 0
-\end{cases}
-\]
-
-<h3>Matrices</h3>
-
-\[
-\mathsf{T} =
-\begin{pmatrix}
-T_{xx} & T_{xy} & T_{xz} \\
-T_{yx} & T_{yy} & T_{yz} \\
-T_{zx} & T_{zy} & T_{zz}
-\end{pmatrix}
-\]
-
-<h3>Custom macros</h3>
-
-<p>
-Macros defined in the MathJax config at the top of this file:
-<code>\vb{v}</code> → \(\vb{v}\),
-<code>\pd</code> → \(\pd\),
-<code>\dd</code> → \(\dd\),
-<code>\avg{x}</code> → \(\avg{x}\).
-Add your own in the <code>macros</code> object.
-</p>
-
-
-<!-- ============================================================
-     § 2  FIGURES
-     ============================================================ -->
-
-<h2>2 &ensp; Figures</h2>
-
-<h3>Single figure with caption</h3>
-
-<!-- Replace src with your actual image path, e.g. ../files/img/figure1.png -->
-<figure>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Pleiades_large.jpg/600px-Pleiades_large.jpg"
-       alt="Pleiades star cluster">
-  <figcaption>
-    <strong>Figure 1.</strong> The Pleiades open cluster.
-    Image credit: NASA / ESA / AURA / Caltech.
-  </figcaption>
-</figure>
-
-<p>
-For local images, put them in <code>../files/img/</code> and use a relative path:
-</p>
-
-<pre><code>&lt;figure&gt;
-  &lt;img src="../files/img/my_plot.png" alt="description"&gt;
-  &lt;figcaption&gt;
-    &lt;strong&gt;Figure N.&lt;/strong&gt; Caption text here.
-  &lt;/figcaption&gt;
-&lt;/figure&gt;</code></pre>
-
-<h3>Side-by-side figures</h3>
-
-<div class="fig-row">
-  <figure>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Magnetic_field_of_horseshoe_magnet.png/220px-Magnetic_field_of_horseshoe_magnet.png"
-         alt="Horseshoe magnet field lines">
-    <figcaption><strong>Figure 2a.</strong> Magnetic field of a horseshoe magnet.</figcaption>
-  </figure>
-  <figure>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Magnet0873.png/220px-Magnet0873.png"
-         alt="Bar magnet field lines">
-    <figcaption><strong>Figure 2b.</strong> Field lines of a bar magnet visualised with iron filings.</figcaption>
-  </figure>
-</div>
-
-<pre><code>&lt;div class="fig-row"&gt;
-  &lt;figure&gt;
-    &lt;img src="fig_a.png" alt="..."&gt;
-    &lt;figcaption&gt;&lt;strong&gt;Figure 2a.&lt;/strong&gt; ...&lt;/figcaption&gt;
-  &lt;/figure&gt;
-  &lt;figure&gt;
-    &lt;img src="fig_b.png" alt="..."&gt;
-    &lt;figcaption&gt;&lt;strong&gt;Figure 2b.&lt;/strong&gt; ...&lt;/figcaption&gt;
-  &lt;/figure&gt;
-&lt;/div&gt;</code></pre>
-
-<h3>Controlling figure width</h3>
-
-<p>
-Add an inline <code>style</code> to constrain size:
-</p>
-
-<pre><code>&lt;figure&gt;
-  &lt;img src="small_diagram.png" alt="..."
-       style="max-width: 360px;"&gt;
-  &lt;figcaption&gt;...&lt;/figcaption&gt;
-&lt;/figure&gt;</code></pre>
-
 
 <!-- ============================================================
      § 2.5  VIDEOS
