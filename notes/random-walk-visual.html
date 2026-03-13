@@ -494,254 +494,32 @@ and I came across the famous quote by Shizuo Kakutani: "A drunk man will find hi
 </p>
 
 <p>
-I touched on the intuition behind this in my talk at the 2026 PSP Turbulence and Dissipation Working Group: whether a random walk returns to the origin comes down to a competition between how fast the walker spreads diffusively and how fast the available space grows with dimension.
+I touched on the intuition behind this in my talk at the 2026 PSP Turbulence and Dissipation Working Group: <strong>whether a random walk returns to the origin comes down to a competition between how fast the walker spreads diffusively and how fast the available space grows with dimension</strong>.
 </p>
 
 <p>
-To build some visual intuition, I animated comparisons of 1D, 2D, and 3D random walks using Manim. The code is available on my GitHub repo. It's still rough, but I may refine it later.
-</p>
-<!-- ============================================================
-     § 2.5  VIDEOS
-     ============================================================ -->
-
-<h2>2.5 &ensp; Videos</h2>
-
-<h3>YouTube / external embed</h3>
-
-<p>
-Use the responsive <code>.video-container</code> wrapper to embed a
-YouTube or Vimeo video. It maintains a 16 : 9 aspect ratio at any width.
+Here to build some visual intuition, I animated comparisons of 1D, 2D, and 3D random walks using Manim. The code is available on <a href="https://github.com/rh19physics/visualization_scripts">my GitHub repo</a>. It's still rough, but I may refine it later.
 </p>
 
 <div class="video-wrap">
   <div class="video-container">
-    <!-- REPLACE: swap the src with your YouTube embed URL -->
-    <iframe
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-      title="Example YouTube video"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+    <video controls preload="metadata">
+      <source src="../files/videos/RandomWalkCloud.mp4"
+              type="video/mp4">
+    </video>
   </div>
   <p class="video-caption">
-    <strong>Video 1.</strong> Example YouTube embed. Replace the
-    <code>src</code> with your own video URL.
+    <strong>Video I.</strong> 100 walkers doing random walks for 400 steps in 1D, 2D, and 3D, all starting from the origin.
+    The counter at the top counts how many steps have been taken, and the counters at the bottom count accumulated return numbers as the simulation goes.
   </p>
 </div>
-
-<pre><code>&lt;div class="video-wrap"&gt;
-  &lt;div class="video-container"&gt;
-    &lt;iframe
-      src="https://www.youtube.com/embed/VIDEO_ID"
-      title="Description"
-      allow="accelerometer; autoplay; clipboard-write;
-             encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen&gt;
-    &lt;/iframe&gt;
-  &lt;/div&gt;
-  &lt;p class="video-caption"&gt;
-    &lt;strong&gt;Video N.&lt;/strong&gt; Caption text.
-  &lt;/p&gt;
-&lt;/div&gt;</code></pre>
-
-<h3>Local / self-hosted video</h3>
-
-<p>
-For a video file in your repo (e.g. <code>../files/video/simulation.mp4</code>),
-use a <code>&lt;video&gt;</code> tag instead of an iframe:
-</p>
-
-<pre><code>&lt;div class="video-wrap"&gt;
-  &lt;div class="video-container"&gt;
-    &lt;video controls preload="metadata"&gt;
-      &lt;source src="../files/video/simulation.mp4"
-              type="video/mp4"&gt;
-      Your browser does not support the video tag.
-    &lt;/video&gt;
-  &lt;/div&gt;
-  &lt;p class="video-caption"&gt;
-    &lt;strong&gt;Video N.&lt;/strong&gt; Caption text.
-  &lt;/p&gt;
-&lt;/div&gt;</code></pre>
-
-
-<!-- ============================================================
-     § 3  CALLOUTS, THEOREMS, PROOFS
-     ============================================================ -->
-
-<h2>3 &ensp; Callout boxes</h2>
-
-<div class="callout">
-  <div class="callout-label">Note</div>
-  <p>
-    This is a general-purpose callout for remarks, tips, or asides.
-    Change the label text to anything you like.
-  </p>
-</div>
-
-<div class="callout warning">
-  <div class="callout-label">Warning</div>
-  <p>
-    This variant uses an amber left border for warnings or caveats.
-  </p>
-</div>
-
-<pre><code>&lt;div class="callout"&gt;
-  &lt;div class="callout-label"&gt;Note&lt;/div&gt;
-  &lt;p&gt;Your remark here.&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;!-- warning variant --&gt;
-&lt;div class="callout warning"&gt;
-  &lt;div class="callout-label"&gt;Warning&lt;/div&gt;
-  &lt;p&gt;...&lt;/p&gt;
-&lt;/div&gt;</code></pre>
-
-
-<h2>4 &ensp; Theorems &amp; proofs</h2>
-
-<div class="theorem">
-  <div class="theorem-label">Theorem 1 (Parseval's theorem).</div>
-  <p>
-    If \(f(x)\) is square-integrable on \([-L, L]\) with Fourier coefficients
-    \(c_n\), then
-    \[
-      \frac{1}{2L}\int_{-L}^{L} |f(x)|^2\,\dd x
-      = \sum_{n=-\infty}^{\infty} |c_n|^2.
-    \]
-  </p>
-</div>
-
-<div class="proof">
-  <div class="proof-label">Proof.</div>
-  <p>
-    Expand \(|f|^2 = f\bar{f}\) in Fourier series and integrate
-    term by term, using orthogonality of \(e^{i n\pi x/L}\).
-  </p>
-  <div class="qed">∎</div>
-</div>
-
-<pre><code>&lt;div class="theorem"&gt;
-  &lt;div class="theorem-label"&gt;Theorem 1 (Name).&lt;/div&gt;
-  &lt;p&gt;Statement with \( math \) ...&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;div class="proof"&gt;
-  &lt;div class="proof-label"&gt;Proof.&lt;/div&gt;
-  &lt;p&gt;Proof body ...&lt;/p&gt;
-  &lt;div class="qed"&gt;∎&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-
-
-<!-- ============================================================
-     § 5  TABLES
-     ============================================================ -->
-
-<h2>5 &ensp; Tables</h2>
-
-<table>
-<caption>Table 1. Characteristic plasma parameters.</caption>
-<tr>
-  <th>Parameter</th>
-  <th>Symbol</th>
-  <th>Solar wind</th>
-  <th>Magnetosheath</th>
-</tr>
-<tr><td>Density</td><td>\(n\)</td><td>5 cm⁻³</td><td>20 cm⁻³</td></tr>
-<tr><td>Temperature</td><td>\(T_i\)</td><td>10 eV</td><td>100 eV</td></tr>
-<tr><td>Plasma beta</td><td>\(\beta_i\)</td><td>~1</td><td>~5</td></tr>
-</table>
-
-
-<!-- ============================================================
-     § 6  CODE BLOCKS
-     ============================================================ -->
-
-<h2>6 &ensp; Code</h2>
-
-<h3>Inline code</h3>
-
-<p>
-Use <code>&lt;code&gt;...&lt;/code&gt;</code> for inline snippets
-like <code>np.fft.fft(data)</code>.
-</p>
-
-<h3>Code blocks</h3>
-
-<pre><code>import numpy as np
-
-def energy_spectrum(B, dx):
-    """Compute the magnetic energy spectrum."""
-    Bk = np.fft.rfft(B) * dx
-    k  = np.fft.rfftfreq(len(B), d=dx) * 2 * np.pi
-    Ek = 0.5 * np.abs(Bk)**2 / len(B)
-    return k, Ek</code></pre>
-
-
-<!-- ============================================================
-     § 7  LISTS
-     ============================================================ -->
-
-<h2>7 &ensp; Lists</h2>
-
-<h3>Unordered</h3>
-<ul>
-  <li>Landau damping</li>
-  <li>Transit-time damping</li>
-  <li>Cyclotron damping</li>
-</ul>
-
-<h3>Ordered</h3>
-<ol>
-  <li>Initialise the distribution function.</li>
-  <li>Advance fields via Maxwell's equations.</li>
-  <li>Push particles and compute moments.</li>
-</ol>
-
-
-<!-- ============================================================
-     § 8  FOOTNOTES
-     ============================================================ -->
-
-<h2>8 &ensp; Footnotes</h2>
-
-<p>
-The Vlasov equation<sup><a href="#fn1" id="fnref1">1</a></sup>
-describes the evolution of the distribution function in the collisionless
-limit. It can be derived from the BBGKY hierarchy<sup><a href="#fn2" id="fnref2">2</a></sup>.
-</p>
-
-<div class="footnotes">
-<ol>
-  <li id="fn1">
-    Strictly, the Vlasov equation is the collisionless Boltzmann equation.
-    <a href="#fnref1">↩</a>
-  </li>
-  <li id="fn2">
-    Bogoliubov–Born–Green–Kirkwood–Yvon hierarchy; see Ichimaru (1973).
-    <a href="#fnref2">↩</a>
-  </li>
-</ol>
-</div>
-
-<pre><code>&lt;!-- In the text --&gt;
-Some claim&lt;sup&gt;&lt;a href="#fn1" id="fnref1"&gt;1&lt;/a&gt;&lt;/sup&gt;.
-
-&lt;!-- At the bottom --&gt;
-&lt;div class="footnotes"&gt;
-  &lt;ol&gt;
-    &lt;li id="fn1"&gt;
-      Footnote text. &lt;a href="#fnref1"&gt;↩&lt;/a&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;</code></pre>
 
 
 <!-- ============================================================
      § 9  REFERENCES / BIBLIOGRAPHY
      ============================================================ -->
 
-<h2>9 &ensp; References</h2>
+<!-- <h2>9 &ensp; References</h2>
 
 <div class="references">
 <ol>
@@ -761,7 +539,7 @@ Some claim&lt;sup&gt;&lt;a href="#fn1" id="fnref1"&gt;1&lt;/a&gt;&lt;/sup&gt;.
     <em>The Astrophysical Journal Letters</em> <strong>826.2</strong>, L30 (2016).
   </li>
 </ol>
-</div>
+</div> -->
 
 
 </main>
