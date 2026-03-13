@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ============================================================
+     TALK PAGE TEMPLATE — Rui Huang
+     ============================================================
+     QUICK START
+     1. Copy this file and rename it (e.g. apsdpp2024-oral.html).
+     2. Replace the <title>, talk-title, talk-meta, abstract, and
+        PDF path.
+     3. Put your slides/poster PDF in ../files/talks/.
+     4. Link to this page from the main index.html talks section:
+        <a href="talks/your-filename.html">Talk title</a>
+     ============================================================ -->
+
+<title>How to Effectively Utilize Phase Space (to Understand Turbulent Energy Dissipation). — Rui Huang</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- MathJax (remove if no math in abstract) -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+:root{
+--ink:#1a1a2e;
+--paper:#f5f0eb;
+--accent:#4f7d9a;
+--muted:#7a7468;
+--rule:#d4cdc4;
+--highlight:#fdf8f4;
+--nav-bg:rgba(245,240,235,0.9);
+--serif:'Libre Baskerville', Georgia, serif;
+--sans:'DM Sans', Helvetica, sans-serif;
+}
+
+[data-theme="dark"]{
+--ink:#e0dcd6;
+--paper:#161821;
+--accent:#6fa8c7;
+--muted:#9a958d;
+--rule:#2e3040;
+--highlight:#1d1f2b;
+--nav-bg:rgba(22,24,33,0.9);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+font-family:var(--sans);
+background:var(--paper);
+color:var(--ink);
+line-height:1.75;
+font-size:17px;
+transition:background 0.35s, color 0.35s;
+}
+
+nav{
+position:fixed;top:0;width:100%;
+background:var(--nav-bg);
+border-bottom:1px solid var(--rule);
+backdrop-filter:blur(10px);
+padding:0 2rem;z-index:100;
+}
+
+.nav-inner{
+max-width:900px;margin:0 auto;
+display:flex;justify-content:space-between;
+align-items:center;height:56px;
+}
+
+.nav-name{
+font-family:var(--serif);font-weight:700;
+text-decoration:none;color:var(--ink);
+}
+
+.nav-links{
+display:flex;align-items:center;gap:1.5rem;
+}
+
+.nav-links a{
+font-size:0.8rem;text-transform:uppercase;
+letter-spacing:0.05em;text-decoration:none;
+color:var(--muted);
+}
+
+.nav-links a:hover{color:var(--accent);}
+
+main{
+max-width:780px;margin:0 auto;
+padding:120px 1.5rem 60px;
+}
+
+.talk-title{
+font-family:var(--serif);
+font-size:1.85rem;line-height:1.25;
+margin-bottom:0.7rem;
+}
+
+.talk-meta{
+color:var(--muted);font-size:0.9rem;
+margin-bottom:2rem;
+display:flex;
+flex-wrap:wrap;
+gap:0.5rem 1.5rem;
+}
+
+.talk-meta .tag{
+display:inline-block;
+font-size:0.72rem;
+font-weight:600;
+text-transform:uppercase;
+letter-spacing:0.06em;
+color:var(--accent);
+border:1px solid var(--accent);
+border-radius:3px;
+padding:0.12rem 0.5rem;
+}
+
+h2{
+font-family:var(--serif);
+margin-top:2.5rem;margin-bottom:0.7rem;
+font-size:1.3rem;
+}
+
+p{margin-bottom:1.2rem;}
+
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+.abstract{
+background:var(--highlight);
+border:1px solid var(--rule);
+border-radius:8px;
+padding:1.5rem 1.75rem;
+margin:1.5rem 0;
+line-height:1.8;
+}
+
+.abstract p:last-child{margin-bottom:0;}
+
+.pdf-viewer{
+margin:2rem 0;
+}
+
+.pdf-viewer iframe{
+width:100%;
+height:600px;
+border:1px solid var(--rule);
+border-radius:8px;
+background:var(--highlight);
+}
+
+.pdf-fallback{
+margin-top:0.75rem;
+font-size:0.88rem;
+color:var(--muted);
+}
+
+.pdf-fallback a{
+font-weight:600;
+}
+
+.back-link{
+display:inline-flex;
+align-items:center;
+gap:0.35rem;
+font-size:0.88rem;
+font-weight:500;
+color:var(--accent);
+text-decoration:none;
+margin-bottom:1.75rem;
+}
+
+.back-link:hover{opacity:0.7;text-decoration:none;}
+
+.theme-toggle{
+background:none;
+border:1px solid var(--rule);
+border-radius:50%;
+width:34px;height:34px;
+cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+font-size:1rem;color:var(--muted);
+transition:border-color 0.25s, color 0.25s;
+flex-shrink:0;
+}
+
+.theme-toggle:hover{
+border-color:var(--accent);
+color:var(--accent);
+}
+
+footer{
+max-width:900px;margin:0 auto;
+padding:2rem;
+border-top:1px solid var(--rule);
+text-align:center;font-size:0.8rem;
+color:var(--muted);
+}
+
+@media(max-width:600px){
+  .talk-title{font-size:1.5rem;}
+  .pdf-viewer iframe{height:400px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav-inner">
+<a href="../index.html" class="nav-name">Rui Huang</a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
+</div>
+</div>
+</nav>
+
+
+<main>
+
+<a href="../index.html#talks" class="back-link">← Back to Talks</a>
+
+<h1 class="talk-title">
+<!-- REPLACE: Talk title -->
+How to Effectively Utilize Phase Space (to Understand Turbulent Energy Dissipation).
+</h1>
+
+<div class="talk-meta">
+  <!-- REPLACE: Use "Oral" or "Poster" -->
+  <span class="tag">Oral</span>
+  <!-- REPLACE: Venue and year -->
+  <span>Parker Solar Probe (PSP) Work Group · 2026</span>
+</div>
+
+
+<h2>Abstract</h2>
+
+<div class="abstract">
+<p>
+<!-- REPLACE: Your abstract here. Use \( ... \) for inline math. -->
+This talk will introduce a set of phase-space–based diagnostics for identifying the physical mechanisms responsible for turbulent dissipation and particle energization in collisionless plasmas. The discussion will focus on the field–particle correlation technique and the Liouville mapping method, showing how phase-space structure encodes information about energy transfer between fields and particles. More broadly, the talk will also touch on how the concept of phase space emerged in the tangled development history of mathematics and physics, with the goal of inspiring new ways to gain physical insights from phase-space information. The format of this talk will be very informal. Questions and comments are welcome throughout.
+</p>
+</div>
+
+
+<h2>Related Paper</h2>
+
+<p>
+<!-- REPLACE: Add your related paper(s) here. Example format: -->
+<strong>Rui Huang</strong> and Gregory G. Howes,
+"Unveiling the velocity-space signature of ion cyclotron damping using Liouville mapping,"
+<em>Physics of Plasmas,</em> <strong>32</strong>(12) (2025) · doi:10.1063/5.0293700.
+[<a href="https://doi.org/10.1063/5.0293700" target="_blank" rel="noopener">DOI</a>]
+<!-- [<a href="https://arxiv.org/abs/YOUR_ID" target="_blank" rel="noopener">arXiv</a>] -->
+</p>
+
+<!-- REPLACE: Change h2 to "Poster" if applicable -->
+<h2>Slides</h2>
+<p>
+The slides will be uploaded later.
+</p>
+
+<!-- <div class="pdf-viewer"> -->
+  <!-- REPLACE: Path to your PDF.
+       Put the file in ../files/talks/ and update src and href below.
+       For posters, just change the section heading above. -->
+  <!-- <iframe
+    src="../files/talks/YOUR_FILE.pdf"
+    title="Slides">
+  </iframe>
+  <p class="pdf-fallback">
+    PDF not loading?
+    <a href="../files/talks/YOUR_FILE.pdf" target="_blank" rel="noopener">
+      Open directly ↗
+    </a>
+  </p>
+</div> -->
+
+
+</main>
+
+
+<footer>
+© 2026 Rui Huang · Built with GitHub Pages
+</footer>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = stored || (prefersDark ? 'dark' : 'light');
+
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateIcon();
+    });
+
+    function updateIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.textContent = isDark ? '☀' : '☾';
+    }
+  })();
+</script>
+
+</body>
+</html>
