@@ -887,7 +887,8 @@ focusing on energy transport, plasma heating, and particle acceleration.
       const toggle = document.getElementById('themeToggle');
       const stored = localStorage.getItem('theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = stored || (prefersDark ? 'dark' : 'light');
+      // const theme = stored || (prefersDark ? 'dark' : 'light');
+      const theme = stored || 'dark';
 
       if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
       updateIcon();

@@ -920,7 +920,8 @@ Some claim&lt;sup&gt;&lt;a href="#fn1" id="fnref1"&gt;1&lt;/a&gt;&lt;/sup&gt;.
     const toggle = document.getElementById('themeToggle');
     const stored = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme = stored || (prefersDark ? 'dark' : 'light');
+    // const theme = stored || (prefersDark ? 'dark' : 'light');
+    const theme = stored || 'dark';
 
     if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
     updateIcon();
