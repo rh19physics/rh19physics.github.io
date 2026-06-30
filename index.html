@@ -328,6 +328,20 @@
       line-height: 1.65;
     }
 
+    a.research-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    a.research-card h3 {
+      color: var(--ink);
+    }
+
+    a.research-card:hover h3 {
+      color: var(--accent);
+    }
+
     /* --- Publications --- */
     .pub-list { list-style: none; }
 
@@ -637,13 +651,13 @@ focusing on energy transport, plasma heating, and particle acceleration.
             Diagnosing ion and electron energization mechanisms in three-dimensional kinetic simulations.
           </p>
         </div>
-        <div class="research-card">
+        <a class="research-card" href="research/data-driven-plasma-physics.html">
           <h3>Data-driven plasma physics</h3>
           <p>
             Applying symbolic regression and scientific machine learning to derive interpretable plasma-heating scalings
             and accelerate discovery from simulation and spacecraft datasets.
           </p>
-        </div>
+        </a>
       </div>
     </section>
 

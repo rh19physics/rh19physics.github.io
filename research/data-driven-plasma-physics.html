@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Data-Driven Plasma Physics — Rui Huang</title>
+<meta name="description" content="Symbolic regression and scientific machine learning for interpretable plasma-turbulence heating models — including a study applying AI Feynman to the Howes (2010) turbulent heating model." />
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- MathJax -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+
+:root {
+  --ink: #1a1a2e;
+  --paper: #dddddd;
+  --accent: #4f7d9a;
+  --muted: #425c6c;
+  --rule: #9ea4a8;
+  --highlight: #f0f0f0;
+  --nav-bg: #e0e0e0;
+  --serif: 'Libre Baskerville', Georgia, serif;
+  --sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+}
+
+[data-theme="dark"] {
+  --ink: #C7E9F1;
+  --paper: #000000;
+  --accent: #9CDCEB;
+  --muted: #58C4DD;
+  --rule: #2e3040;
+  --highlight: #1d242b;
+  --nav-bg: rgba(22, 24, 33, 0.92);
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+font-family:var(--sans);
+background:var(--paper);
+color:var(--ink);
+line-height:1.75;
+font-size:17px;
+transition:background 0.35s, color 0.35s;
+}
+
+nav{
+position:fixed;top:0;width:100%;
+background:var(--nav-bg);
+border-bottom:1px solid var(--rule);
+backdrop-filter:blur(10px);
+padding:0 2rem;z-index:100;
+}
+
+.nav-inner{
+max-width:900px;margin:0 auto;
+display:flex;justify-content:space-between;
+align-items:center;height:56px;
+}
+
+.nav-name{
+font-family:var(--serif);font-weight:700;
+text-decoration:none;color:var(--ink);
+}
+
+.nav-links{
+display:flex;align-items:center;gap:1.5rem;
+}
+
+.nav-links a{
+font-size:0.8rem;text-transform:uppercase;
+letter-spacing:0.05em;text-decoration:none;
+color:var(--muted);
+}
+
+.nav-links a:hover{color:var(--accent);}
+
+main{
+max-width:780px;margin:0 auto;
+padding:120px 1.5rem 60px;
+}
+
+.talk-title{
+font-family:var(--serif);
+font-size:1.85rem;line-height:1.25;
+margin-bottom:0.7rem;
+}
+
+.talk-meta{
+color:var(--muted);font-size:0.9rem;
+margin-bottom:2rem;
+display:flex;
+flex-wrap:wrap;
+gap:0.5rem 1.5rem;
+}
+
+.talk-meta .tag{
+display:inline-block;
+font-size:0.72rem;
+font-weight:600;
+text-transform:uppercase;
+letter-spacing:0.06em;
+color:var(--accent);
+border:1px solid var(--accent);
+border-radius:3px;
+padding:0.12rem 0.5rem;
+}
+
+h2{
+font-family:var(--serif);
+margin-top:2.5rem;margin-bottom:0.7rem;
+font-size:1.3rem;
+}
+
+p{margin-bottom:1.2rem;}
+
+ul{margin:0.5rem 0 1.2rem 1.5rem;}
+li{margin-bottom:0.4rem;}
+
+a{color:var(--accent);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+.abstract{
+background:var(--highlight);
+border:1px solid var(--rule);
+border-radius:8px;
+padding:1.5rem 1.75rem;
+margin:1.5rem 0;
+line-height:1.8;
+}
+
+.abstract p:last-child{margin-bottom:0;}
+
+.pdf-viewer{
+margin:2rem 0;
+}
+
+.pdf-viewer iframe{
+width:100%;
+height:600px;
+border:1px solid var(--rule);
+border-radius:8px;
+background:var(--highlight);
+}
+
+.pdf-fallback{
+margin-top:0.75rem;
+font-size:0.88rem;
+color:var(--muted);
+}
+
+.pdf-fallback a{
+font-weight:600;
+}
+
+.back-link{
+display:inline-flex;
+align-items:center;
+gap:0.35rem;
+font-size:0.88rem;
+font-weight:500;
+color:var(--accent);
+text-decoration:none;
+margin-bottom:1.75rem;
+}
+
+.back-link:hover{opacity:0.7;text-decoration:none;}
+
+.theme-toggle{
+background:none;
+border:1px solid var(--rule);
+border-radius:50%;
+width:34px;height:34px;
+cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+font-size:1rem;color:var(--muted);
+transition:border-color 0.25s, color 0.25s;
+flex-shrink:0;
+}
+
+.theme-toggle:hover{
+border-color:var(--accent);
+color:var(--accent);
+}
+
+footer{
+max-width:900px;margin:0 auto;
+padding:2rem;
+border-top:1px solid var(--rule);
+text-align:center;font-size:0.8rem;
+color:var(--muted);
+}
+
+@media(max-width:600px){
+  .talk-title{font-size:1.5rem;}
+  .pdf-viewer iframe{height:400px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+<div class="nav-inner">
+<a href="../index.html" class="nav-name">Rui Huang</a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../index.html#research">Research</a>
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀</button>
+</div>
+</div>
+</nav>
+
+
+<main>
+
+<a href="../index.html#research" class="back-link">← Back to Research</a>
+
+<h1 class="talk-title">
+Data-Driven Plasma Physics
+</h1>
+
+<div class="talk-meta">
+  <span class="tag">Research Thread</span>
+  <span>Symbolic regression &amp; scientific machine learning</span>
+</div>
+
+<p>
+My direct AI/ML research experience has so far focused on exploratory scientific machine-learning projects, especially interpretable model discovery. 
+In 2024, I completed a symbolic-regression course project applying AI Feynman, the physics-inspired differentiable divide-and-conquer algorithm developed by Udrescu and Tegmark, to turbulent dissipation data generated from a gyrokinetic theoretical model. 
+The goal was to infer an analytical expression for the ion-to-electron heating ratio \(Q_i / Q_e\) as a function of ion plasma beta \(\beta_i\) and the ion-to-electron temperature ratio \(T_i/T_e\). 
+A key result was that the algorithm performed much better when supplied with a physically motivated dominant symbolic term, highlighting the importance of incorporating domain knowledge into scientific ML workflows.
+</p>
+
+<p>
+This did not yield publishable results. But it got me interested in the concept of scientific machine learning (SciML), especially symbolic regression. 
+I later did a tutorial talk on SciML at my department <a href="../talks/">
+  </p>
+
+<h2>Report</h2>
+
+<div class="pdf-viewer">
+  <iframe
+    src="../files/docu/rhuang_aifeynman_plasma_turbulence.pdf"
+    title="When AI Feynman Meets Plasma Turbulence">
+  </iframe>
+  <p class="pdf-fallback">
+    PDF not loading?
+    <a href="../files/docu/rhuang_aifeynman_plasma_turbulence.pdf" target="_blank" rel="noopener">
+      Open directly ↗
+    </a>
+  </p>
+</div>
+
+
+</main>
+
+
+<footer>
+© 2026 Rui Huang · Data-Driven Plasma Physics
+</footer>
+
+<script>
+  (function() {
+    const toggle = document.getElementById('themeToggle');
+    const stored = localStorage.getItem('theme');
+    const theme = stored || 'dark';
+
+    if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+    updateIcon();
+
+    toggle.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateIcon();
+    });
+
+    function updateIcon() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      toggle.textContent = isDark ? '☀' : '☾';
+    }
+  })();
+</script>
+
+</body>
+</html>
